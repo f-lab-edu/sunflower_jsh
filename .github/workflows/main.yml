@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out New PR 🚀
 on:
   pull_request:
     branches:
-    - main
+    - master
     
 jobs:
   Explore-GitHub-Actions:
