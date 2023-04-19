@@ -1,7 +1,6 @@
 name: New PR
 run-name: ${{ github.actor }} is testing out New PR 🚀
 on:
-  push:
   pull_request:
     branches:
     - main
@@ -24,12 +23,3 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
-      - name: Build all artifacts
-        id: buildAllApks
-        uses: eskatos/gradle-command-action@v1.3.3
-        with:
-          gradle-version: 7.5
-          wrapper-cache-enabled: true
-          dependencies-cache-enabled: true
-          configuration-cache-enabled: true
-          arguments: assembleRelease
