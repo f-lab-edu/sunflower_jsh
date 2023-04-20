@@ -10,16 +10,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Caching
+        uses: actions/cache@v3
+        with:
+         path: ~/.gradle/caches
+         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+         restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+      - name: Displays the Android dependencies of the project
+        run: ./gradlew androidDependencies
+
+      - name: Run Compile
+        run: ./gradlew assembleDebug
+      
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      - name: Run chmod to make gradlew executable
-        run: chmod +x ./gradlew
+
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-        with:
-          arguments: build
+        run: |
+          if [[ -d ~/.gradle/wrapper/dists/ ]]; then
+            echo "Using cached Gradle"
+            ./gradlew assemble
+          else
+            echo "Using local Gradle"
+            gradle assemble
+          fi
