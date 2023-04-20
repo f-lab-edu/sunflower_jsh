@@ -36,3 +36,5 @@ jobs:
             echo "Using local Gradle"
             gradle assemble
           fi
+          env:
+          GRADLE_USER_HOME: ${{ runner.home }}/gradle
