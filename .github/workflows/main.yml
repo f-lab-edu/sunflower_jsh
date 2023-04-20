@@ -2,7 +2,8 @@ name: New PR
 run-name: ${{ github.actor }} is testing out New PR 🚀
 on:
   pull_request:
-   types: [opened, reopened]
+    branches:
+      - master
     
 jobs:
   Explore-GitHub-Actions:
