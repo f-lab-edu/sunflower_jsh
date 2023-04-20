@@ -26,7 +26,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          if [[ -d ~/.gradle/wrapper/dists/ ]]; then
+          if [[ steps.cache.outputs.cache-hit == 'true' ]]; then
             echo "Using cached Gradle"
             ./gradlew assemble
           else
