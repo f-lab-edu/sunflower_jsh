@@ -2,6 +2,7 @@ name: New PR
 run-name: ${{ github.actor }} is testing out New PR 🚀
 on:
   pull_request:
+  push:
     branches:
       - master
     
