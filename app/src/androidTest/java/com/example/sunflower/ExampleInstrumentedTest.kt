@@ -1,4 +1,4 @@
-package com.example.sunflower_practice
+package com.example.sunflower
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
