@@ -1,4 +1,4 @@
-package com.example.sunflower_practice
+package com.example.sunflower
 
 import org.junit.Test
 
