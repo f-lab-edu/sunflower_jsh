@@ -12,13 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Ktlint
-        run: ./gradlew ktlintCheck
-
-      - uses: reviewdog/action-setup@v1
-        with:
-          reviewdog_version: latest
-
       - name: Run reviewdog
         uses: ScaCap/action-ktlint@master
         with:
