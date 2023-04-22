@@ -20,7 +20,6 @@ jobs:
           reviewdog_version: latest
 
       - name: Run reviewdog
-        uses: reviewdog/action-yamllint@v1
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
