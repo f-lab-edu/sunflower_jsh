@@ -10,7 +10,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Preview
 @Composable
 fun MainScreen() {
-
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         color = MaterialTheme.colorScheme.primary

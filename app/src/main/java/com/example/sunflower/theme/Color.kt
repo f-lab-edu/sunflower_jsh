@@ -1,4 +1,5 @@
-package com.example.compose
+package com.example.sunflower.theme
+
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF006E19)
@@ -60,6 +61,3 @@ val md_theme_dark_inversePrimary = Color(0xFF006E19)
 val md_theme_dark_surfaceTint = Color(0xFF4BE256)
 val md_theme_dark_outlineVariant = Color(0xFF424940)
 val md_theme_dark_scrim = Color(0xFF000000)
-
-
-val seed = Color(0xFF3BD54B)

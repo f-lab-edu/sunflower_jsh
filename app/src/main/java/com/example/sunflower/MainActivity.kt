@@ -3,7 +3,7 @@ package com.example.sunflower
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.compose.SunflowerTheme
+import com.example.sunflower.theme.SunflowerTheme
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +13,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             SunflowerTheme() {
                 MainScreen()
-            }}
+            }
+        }
 
     }
 }
