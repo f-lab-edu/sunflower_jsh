@@ -11,7 +11,6 @@ fun SunflowerTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content:
     @Composable
-
     () -> Unit,
 ) {
     val colors = if (!useDarkTheme) {
