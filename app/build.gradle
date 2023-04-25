@@ -65,4 +65,8 @@ dependencies {
     implementation 'androidx.compose.runtime:runtime-livedata'
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
+
+    def accompanist_version = "0.28.0"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 }
