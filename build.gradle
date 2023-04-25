@@ -7,5 +7,5 @@ plugins {
 }
 
 dependencies {
-    ktlintRuleset "com.twitter.compose.rules:ktlint:0.43.2"
+    ktlintRuleset "com.twitter.compose.rules:ktlint:0.0.26"
 }
