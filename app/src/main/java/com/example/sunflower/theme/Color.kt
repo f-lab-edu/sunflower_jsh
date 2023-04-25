@@ -33,7 +33,7 @@ val LightColors = lightColorScheme(
     inversePrimary = Color(0xFF4BE256),
     surfaceTint = Color(0xFF006E19),
     outlineVariant = Color(0xFFC2C8BD),
-    scrim = Color(0xFF000000),
+    scrim = Color(0xFF000000)
 )
 
 val DarkColors = darkColorScheme(
@@ -65,5 +65,5 @@ val DarkColors = darkColorScheme(
     inversePrimary = Color(0xFF006E19),
     surfaceTint = Color(0xFF4BE256),
     outlineVariant = Color(0xFF424940),
-    scrim = Color(0xFF000000),
+    scrim = Color(0xFF000000)
 )
