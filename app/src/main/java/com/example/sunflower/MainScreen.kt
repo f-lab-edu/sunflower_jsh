@@ -12,7 +12,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun MainScreen() {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary,
     )
     ThemeTest()
 }

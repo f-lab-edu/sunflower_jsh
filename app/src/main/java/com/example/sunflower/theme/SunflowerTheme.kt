@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 fun SunflowerTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content:
-        @Composable () -> Unit
+    @Composable () -> Unit,
 ) {
     val colors = if (!useDarkTheme) {
         LightColors
@@ -18,6 +18,6 @@ fun SunflowerTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        content = content
+        content = content,
     )
 }
