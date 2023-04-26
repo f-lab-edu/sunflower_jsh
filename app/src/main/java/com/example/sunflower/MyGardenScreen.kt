@@ -12,6 +12,5 @@ fun MyGardenScreen() {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.primaryContainer)) {
-
     }
 }

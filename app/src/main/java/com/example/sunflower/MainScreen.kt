@@ -2,7 +2,11 @@ package com.example.sunflower
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.TabRow
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Icon
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -33,12 +37,12 @@ fun MainScreen() {
         TabRowItem(
             title = "My Garden",
             screen = { MyGardenScreen() },
-            icon = R.drawable.ic_flower
+            icon = R.drawable.ic_flower,
         ),
         TabRowItem(
             title = "Plant list",
             screen = { PlantListScreen() },
-            icon = R.drawable.ic_grass
+            icon = R.drawable.ic_grass,
         ),
     )
 
@@ -49,7 +53,7 @@ fun MainScreen() {
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
         ) {
@@ -58,7 +62,7 @@ fun MainScreen() {
                     selected = pagerState.currentPage == index,
                     onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
                     icon = {
-                        Icon(imageVector = ImageVector.vectorResource(id = item.icon),contentDescription = null)
+                        Icon(imageVector = ImageVector.vectorResource(id = item.icon), contentDescription = null)
                     },
                     unselectedContentColor = MaterialTheme.colorScheme.onPrimary,
                     selectedContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -69,7 +73,7 @@ fun MainScreen() {
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                         )
-                    }
+                    },
                 )
             }
         }
