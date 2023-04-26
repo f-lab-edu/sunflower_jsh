@@ -45,11 +45,11 @@ fun MainScreen() {
     Column {
         TabRow(
             selectedTabIndex = pagerState.currentPage,
-            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            backgroundColor = MaterialTheme.colorScheme.primary,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             },
         ) {
@@ -60,12 +60,12 @@ fun MainScreen() {
                     icon = {
                         Icon(imageVector = ImageVector.vectorResource(id = item.icon),contentDescription = null)
                     },
-                    unselectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    selectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unselectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedContentColor = MaterialTheme.colorScheme.onPrimary,
                     text = {
                         Text(
                             text = item.title,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                         )
