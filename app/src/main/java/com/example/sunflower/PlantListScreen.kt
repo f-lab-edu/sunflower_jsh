@@ -12,7 +12,8 @@ fun PlantListScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.primaryContainer,
+            )
     ) {
     }
 }
