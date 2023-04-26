@@ -9,8 +9,10 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun MyGardenScreen() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.primaryContainer)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.primaryContainer,)
+    ) {
     }
 }
