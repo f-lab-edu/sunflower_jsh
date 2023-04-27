@@ -21,6 +21,11 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
+enum class TabMenu(val title: String, val icon: Int) {
+    MY_GARDEN("My Garden", R.drawable.ic_flower),
+    PLANT_LIST("Plant list", R.drawable.ic_grass),
+}
+
 @OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
@@ -33,18 +38,6 @@ fun MainScreen() {
         color = MaterialTheme.colorScheme.background,
     )
 
-    val tabRowItems = listOf(
-        TabRowItem(
-            title = "My Garden",
-            screen = { MyGardenScreen() },
-            icon = R.drawable.ic_flower,
-        ),
-        TabRowItem(
-            title = "Plant list",
-            screen = { PlantListScreen() },
-            icon = R.drawable.ic_grass,
-        ),
-    )
 
     Column {
         TabRow(
@@ -57,7 +50,7 @@ fun MainScreen() {
                 )
             },
         ) {
-            tabRowItems.forEachIndexed { index, item ->
+            TabMenu.values().forEachIndexed { index, item ->
                 Tab(
                     selected = pagerState.currentPage == index,
                     onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
@@ -78,10 +71,13 @@ fun MainScreen() {
             }
         }
         HorizontalPager(
-            count = tabRowItems.size,
+            count = TabMenu.values().size,
             state = pagerState,
         ) {
-            tabRowItems[pagerState.currentPage].screen()
+            when(TabMenu.values()[pagerState.currentPage]) {
+                TabMenu.MY_GARDEN -> MyGardenScreen()
+                TabMenu.PLANT_LIST -> PlantListScreen()
+            }
         }
     }
 }
