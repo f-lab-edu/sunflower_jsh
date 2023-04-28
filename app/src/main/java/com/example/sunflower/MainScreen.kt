@@ -87,7 +87,8 @@ fun MainScreen() {
                     onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
                     icon = {
                         Icon(
-                            imageVector = ImageVector.vectorResource(id = item.icon), contentDescription = null,
+                            imageVector = ImageVector.vectorResource(id = item.icon),
+                            contentDescription = null,
                         )
                     },
                     unselectedContentColor = MaterialTheme.colorScheme.inversePrimary,
