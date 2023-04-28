@@ -24,7 +24,6 @@ fun SunflowerTheme(
     )
 }
 
-
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
@@ -56,7 +55,6 @@ private val LightColors = lightColorScheme(
     surfaceVariant = md_theme_light_surfaceVariant,
     onSurfaceVariant = md_theme_light_onSurfaceVariant,
 )
-
 
 private val DarkColors = darkColorScheme(
     primary = md_theme_dark_primary,
