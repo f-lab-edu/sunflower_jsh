@@ -42,7 +42,7 @@ fun MainScreen() {
 
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.primaryContainer,
     )
 
     Column {
@@ -50,8 +50,8 @@ fun MainScreen() {
             modifier = Modifier.fillMaxWidth(),
             colors = centerAlignedTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-                actionIconContentColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             ),
             title = {
                 Text(
@@ -73,11 +73,11 @@ fun MainScreen() {
 
         TabRow(
             selectedTabIndex = pagerState.currentPage,
-            backgroundColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            backgroundColor = MaterialTheme.colorScheme.primary,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
         ) {
@@ -92,7 +92,7 @@ fun MainScreen() {
                         )
                     },
                     unselectedContentColor = MaterialTheme.colorScheme.inversePrimary,
-                    selectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    selectedContentColor = MaterialTheme.colorScheme.onPrimary,
                     text = {
                         Text(
                             text = item.title,
