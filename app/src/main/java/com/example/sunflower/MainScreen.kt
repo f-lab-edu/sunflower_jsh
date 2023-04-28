@@ -74,7 +74,7 @@ fun MainScreen() {
             count = TabMenu.values().size,
             state = pagerState,
         ) {
-            when(TabMenu.values()[pagerState.currentPage]) {
+            when (TabMenu.values()[pagerState.currentPage]) {
                 TabMenu.MY_GARDEN -> MyGardenScreen()
                 TabMenu.PLANT_LIST -> PlantListScreen()
             }
