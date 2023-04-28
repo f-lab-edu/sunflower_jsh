@@ -38,7 +38,6 @@ fun MainScreen() {
         color = MaterialTheme.colorScheme.background,
     )
 
-
     Column {
         TabRow(
             selectedTabIndex = pagerState.currentPage,
