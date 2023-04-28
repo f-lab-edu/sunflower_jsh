@@ -30,34 +30,40 @@ fun PlantCard(plantData: PlantInfo) {
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(vertical = 12.dp),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = "Planted", modifier = Modifier
                     .align(CenterHorizontally),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = plantData.planted, modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(bottom = 12.dp),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = "Last Watered", modifier = Modifier
                     .align(CenterHorizontally),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = plantData.lastWatered, modifier = Modifier
                     .align(CenterHorizontally),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = "water in ${plantData.wateringCycle} days", modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(bottom = 12.dp),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

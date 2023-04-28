@@ -15,7 +15,7 @@ fun PlantListScreen() {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.onSecondary),
+            .background(color = MaterialTheme.colorScheme.secondary),
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(
             vertical = 8.dp,
