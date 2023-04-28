@@ -27,6 +27,11 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
+enum class TabMenu(val title: String, val icon: Int) {
+    MY_GARDEN("My Garden", R.drawable.ic_flower),
+    PLANT_LIST("Plant list", R.drawable.ic_grass),
+}
+
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalPagerApi::class)
 @Preview
@@ -35,26 +40,12 @@ fun MainScreen() {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
-    val tabRowItems = listOf(
-        TabRowItem(
-            title = "My Garden",
-            screen = { MyGardenScreen() },
-            icon = R.drawable.ic_flower,
-        ),
-        TabRowItem(
-            title = "Plant list",
-            screen = { PlantListScreen() },
-            icon = R.drawable.ic_grass,
-        ),
-    )
-
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         color = MaterialTheme.colorScheme.primary,
     )
 
     Column {
-
         CenterAlignedTopAppBar(
             modifier = Modifier.fillMaxWidth(),
             colors = centerAlignedTopAppBarColors(
@@ -71,7 +62,7 @@ fun MainScreen() {
                 )
             },
             actions = {
-                if (tabRowItems[pagerState.currentPage].title == "Plant list") {
+                if (TabMenu.values()[pagerState.currentPage] == TabMenu.PLANT_LIST) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_filter),
                         contentDescription = null,
@@ -90,7 +81,7 @@ fun MainScreen() {
                 )
             },
         ) {
-            tabRowItems.forEachIndexed { index, item ->
+            TabMenu.values().forEachIndexed { index, item ->
                 Tab(
                     selected = pagerState.currentPage == index,
                     onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
@@ -102,6 +93,7 @@ fun MainScreen() {
                     text = {
                         Text(
                             text = item.title,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -109,12 +101,14 @@ fun MainScreen() {
                 )
             }
         }
-
         HorizontalPager(
-            count = tabRowItems.size,
+            count = TabMenu.values().size,
             state = pagerState,
         ) {
-            tabRowItems[pagerState.currentPage].screen()
+            when (TabMenu.values()[pagerState.currentPage]) {
+                TabMenu.MY_GARDEN -> MyGardenScreen()
+                TabMenu.PLANT_LIST -> PlantListScreen()
+            }
         }
     }
 }
