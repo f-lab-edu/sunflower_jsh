@@ -23,7 +23,9 @@ fun PlantCard(plantData: PlantInfo) {
             horizontal = 8.dp,
         )
     ) {
-        Column(modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)) {
+        Column(
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
+        ) {
             PlantImage(plantData.image)
             Text(
                 text = plantData.name,
@@ -31,39 +33,44 @@ fun PlantCard(plantData: PlantInfo) {
                     .align(CenterHorizontally)
                     .padding(vertical = 12.dp),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                text = "Planted", modifier = Modifier
+                text = "Planted",
+                modifier = Modifier
                     .align(CenterHorizontally),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
-                text = plantData.planted, modifier = Modifier
+                text = plantData.planted,
+                modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(bottom = 12.dp),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                text = "Last Watered", modifier = Modifier
+                text = "Last Watered",
+                modifier = Modifier
                     .align(CenterHorizontally),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
-                text = plantData.lastWatered, modifier = Modifier
+                text = plantData.lastWatered,
+                modifier = Modifier
                     .align(CenterHorizontally),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                text = "water in ${plantData.wateringCycle} days", modifier = Modifier
+                text = "water in ${plantData.wateringCycle} days",
+                modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(bottom = 12.dp),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -71,5 +78,10 @@ fun PlantCard(plantData: PlantInfo) {
 
 @Composable
 fun PlantImage(@DrawableRes image: Int) {
-    Image(painter = painterResource(id = image), contentDescription = null)
+    Image(
+        painter = painterResource(
+            id = image,
+        ),
+        contentDescription = null,
+    )
 }

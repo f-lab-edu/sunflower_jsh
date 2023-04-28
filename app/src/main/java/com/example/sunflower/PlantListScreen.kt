@@ -11,7 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -20,7 +20,9 @@ fun PlantListScreen() {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.secondary),
+            .background(
+                color = MaterialTheme.colorScheme.secondary,
+            ),
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(
             vertical = 8.dp,
@@ -35,19 +37,25 @@ fun PlantListScreen() {
                     modifier = Modifier.padding(
                         vertical = 8.dp,
                         horizontal = 8.dp,
-                    )
+                    ),
                 ) {
-                    Column(modifier = Modifier.background(
-                        MaterialTheme.colorScheme.primaryContainer,
-                    )) {
-                        PlantImage(PlantDataObject.plantList[it].image)
+                    Column(
+                        modifier = Modifier.background(
+                            MaterialTheme.colorScheme.primaryContainer,
+                        )
+                    ) {
+                        PlantImage(
+                            PlantDataObject.plantList[it].image,
+                        )
                         Text(
                             text = PlantDataObject.plantList[it].name,
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(vertical = 12.dp),
+                                .align(CenterHorizontally)
+                                .padding(
+                                    vertical = 12.dp,
+                                ),
                             style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 }

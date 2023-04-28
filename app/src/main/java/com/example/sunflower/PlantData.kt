@@ -2,7 +2,6 @@ package com.example.sunflower
 
 import androidx.annotation.DrawableRes
 
-
 data class PlantInfo(
     @DrawableRes val image: Int,
     val name: String,
