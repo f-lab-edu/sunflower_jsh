@@ -20,7 +20,7 @@ fun MyGardenScreen() {
         contentPadding = PaddingValues(
             vertical = 8.dp,
             horizontal = 8.dp,
-        )
+        ),
     ) {
         items(
             count = PlantDataObject.plantList.size,

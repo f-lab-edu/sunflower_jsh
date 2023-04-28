@@ -27,7 +27,7 @@ fun PlantListScreen() {
         contentPadding = PaddingValues(
             vertical = 8.dp,
             horizontal = 8.dp,
-        )
+        ),
     ) {
         items(
             count = PlantDataObject.plantList.size,
@@ -42,11 +42,12 @@ fun PlantListScreen() {
                     Column(
                         modifier = Modifier.background(
                             MaterialTheme.colorScheme.primaryContainer,
-                        )
+                        ),
                     ) {
                         PlantImage(
                             PlantDataObject.plantList[it].image,
                         )
+
                         Text(
                             text = PlantDataObject.plantList[it].name,
                             modifier = Modifier

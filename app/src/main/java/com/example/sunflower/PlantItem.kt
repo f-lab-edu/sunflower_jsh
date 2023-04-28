@@ -21,7 +21,7 @@ fun PlantCard(plantData: PlantInfo) {
         modifier = Modifier.padding(
             vertical = 8.dp,
             horizontal = 8.dp,
-        )
+        ),
     ) {
         Column(
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
