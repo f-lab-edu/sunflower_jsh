@@ -9,5 +9,5 @@ val card: CornerBasedShape
         topStart = 0.dp,
         topEnd = 12.dp,
         bottomStart = 12.dp,
-        bottomEnd = 0.dp
+        bottomEnd = 0.dp,
     )
