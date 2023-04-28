@@ -21,5 +21,10 @@ fun MyGardenScreen() {
             vertical = 8.dp,
             horizontal = 8.dp,
         )
-    ) {}
+    ) {
+        items(
+            count = PlantDataObject.plantList.size,
+            itemContent = { PlantCard(PlantDataObject.plantList[it]) }
+        )
+    }
 }
