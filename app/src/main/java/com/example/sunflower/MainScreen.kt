@@ -96,7 +96,6 @@ fun MainScreen() {
                     text = {
                         Text(
                             text = item.title,
-                            color = MaterialTheme.colorScheme.onPrimary,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                         )
