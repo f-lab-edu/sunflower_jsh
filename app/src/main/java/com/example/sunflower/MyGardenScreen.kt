@@ -24,7 +24,7 @@ fun MyGardenScreen() {
     ) {
         items(
             count = PlantDataObject.plantList.size,
-            itemContent = { PlantCard(PlantDataObject.plantList[it]) }
+            itemContent = { PlantCard(PlantDataObject.plantList[it]) },
         )
     }
 }
