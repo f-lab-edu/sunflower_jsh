@@ -60,7 +60,7 @@ fun PlantListScreen() {
                         )
                     }
                 }
-            }
+            },
         )
     }
 }
