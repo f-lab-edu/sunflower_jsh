@@ -28,6 +28,8 @@ fun PlantListScreen() {
             vertical = 8.dp,
             horizontal = 8.dp,
         ),
+                MaterialTheme.colorScheme.primaryContainer,
+            )
     ) {
         items(
             count = PlantDataObject.plantList.size,

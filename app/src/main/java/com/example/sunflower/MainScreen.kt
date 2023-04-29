@@ -68,7 +68,7 @@ fun MainScreen() {
                         contentDescription = null,
                     )
                 }
-            }
+            },
         )
 
         TabRow(

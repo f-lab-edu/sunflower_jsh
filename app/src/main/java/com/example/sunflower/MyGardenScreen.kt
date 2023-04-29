@@ -21,6 +21,9 @@ fun MyGardenScreen() {
             vertical = 8.dp,
             horizontal = 8.dp,
         ),
+            .background(
+                MaterialTheme.colorScheme.primaryContainer,
+            )
     ) {
         items(
             count = PlantDataObject.plantList.size,
