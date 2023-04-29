@@ -13,9 +13,9 @@ fun SunflowerTheme(
     @Composable () -> Unit,
 ) {
     val colors = if (!useDarkTheme) {
-        LightColors
+        Light_Colors
     } else {
-        DarkColors
+        Dark_Colors
     }
 
     MaterialTheme(
@@ -23,8 +23,7 @@ fun SunflowerTheme(
         content = content,
     )
 }
-
-private val LightColors = lightColorScheme(
+private val Light_Colors = lightColorScheme(
     primary = MD_THEME_LIGHT_PRIMARY,
     onPrimary = MD_THEME_LIGHT_ON_PRIMARY,
     primaryContainer = MD_THEME_LIGHT_PRIMARY_CONTAINER,
@@ -56,7 +55,7 @@ private val LightColors = lightColorScheme(
     onSurfaceVariant = MD_THEME_LIGHT_ON_SURFACE_VARIANT,
 )
 
-private val DarkColors = darkColorScheme(
+private val Dark_Colors = darkColorScheme(
     primary = MD_THEME_DARK_PRIMARY,
     onPrimary = MD_THEME_DARK_ON_PRIMARY,
     primaryContainer = MD_THEME_DARK_PRIMARY_CONTAINER,
