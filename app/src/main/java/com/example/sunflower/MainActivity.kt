@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             SunflowerTheme {
-                MainScreen()
+                SunflowerApp()
             }
         }
 
