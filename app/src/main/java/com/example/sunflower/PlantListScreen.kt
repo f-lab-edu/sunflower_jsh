@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,8 +16,11 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+@ExperimentalMaterial3Api
 @Composable
-fun PlantListScreen() {
+fun PlantListScreen(
+    onNavigateToDetail: () -> Unit
+) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -38,6 +42,7 @@ fun PlantListScreen() {
                         vertical = 8.dp,
                         horizontal = 8.dp,
                     ),
+                    onClick = onNavigateToDetail
                 ) {
                     Column(
                         modifier = Modifier.background(

@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -34,9 +33,10 @@ enum class TabMenu(val title: String, val icon: Int) {
 
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalPagerApi::class)
-@Preview
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onNavigateToDetail: () -> Unit
+) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -109,7 +109,7 @@ fun MainScreen() {
         ) {
             when (TabMenu.values()[pagerState.currentPage]) {
                 TabMenu.MY_GARDEN -> MyGardenScreen()
-                TabMenu.PLANT_LIST -> PlantListScreen()
+                TabMenu.PLANT_LIST -> PlantListScreen(onNavigateToDetail)
             }
         }
     }
