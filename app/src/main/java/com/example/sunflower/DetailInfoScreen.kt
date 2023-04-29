@@ -24,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.compose.ui.res.vectorResource
 
 @ExperimentalMaterial3Api
 @Preview
@@ -87,10 +88,7 @@ fun DetailContentView() {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.3f)
-                    .constrainAs(image) {
-                        top.linkTo(parent.top)
-                    },
+                    .aspectRatio(1.3f),
                 contentScale = ContentScale.Crop,
                 painter = painterResource(
                     id = MockUpDataList.plantList[0].image,
@@ -113,12 +111,9 @@ fun DetailContentView() {
                         imageVector = ImageVector
                             .vectorResource(
                                 id = R.drawable.ic_add,
-                            ),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondary,
+                            ), contentDescription = null
                     )
-                },
-            )
+                })
             DetailTextView(
                 Modifier
                     .fillMaxSize()
@@ -133,6 +128,7 @@ fun DetailContentView() {
     }
 
 }
+
 @Composable
 fun DetailTextView(modifier: Modifier) {
     Column(
