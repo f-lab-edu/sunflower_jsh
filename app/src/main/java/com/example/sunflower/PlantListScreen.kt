@@ -30,7 +30,7 @@ fun PlantListScreen() {
         ),
     ) {
         items(
-            count = PlantDataObject.plantList.size,
+            count = MockUpDataList.plantList.size,
             itemContent = {
                 Card(
                     shape = card,
@@ -45,11 +45,11 @@ fun PlantListScreen() {
                         ),
                     ) {
                         PlantImage(
-                            PlantDataObject.plantList[it].image,
+                            MockUpDataList.plantList[it].image,
                         )
 
                         Text(
-                            text = PlantDataObject.plantList[it].name,
+                            text = MockUpDataList.plantList[it].name,
                             modifier = Modifier
                                 .align(CenterHorizontally)
                                 .padding(
