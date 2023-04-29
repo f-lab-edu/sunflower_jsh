@@ -37,7 +37,7 @@ enum class TabMenu(val title: String, val icon: Int) {
 @Composable
 fun MainScreen(
     onNavigateToDetail: () -> Unit,
-) {
+    ) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
