@@ -35,7 +35,7 @@ enum class TabMenu(val title: String, val icon: Int) {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainScreen(
-    onNavigateToDetail: () -> Unit
+    onNavigateToDetail: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()

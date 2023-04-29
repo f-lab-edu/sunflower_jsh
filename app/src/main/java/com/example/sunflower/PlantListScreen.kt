@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 @ExperimentalMaterial3Api
 @Composable
 fun PlantListScreen(
-    onNavigateToDetail: () -> Unit
+    onNavigateToDetail: () -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -42,7 +42,7 @@ fun PlantListScreen(
                         vertical = 8.dp,
                         horizontal = 8.dp,
                     ),
-                    onClick = onNavigateToDetail
+                    onClick = onNavigateToDetail,
                 ) {
                     Column(
                         modifier = Modifier.background(
