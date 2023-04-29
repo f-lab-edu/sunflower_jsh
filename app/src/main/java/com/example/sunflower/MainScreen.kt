@@ -24,7 +24,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 enum class TabMenu(val title: String, val icon: Int) {
@@ -40,11 +39,6 @@ fun MainScreen(
     ) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
-
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = MaterialTheme.colorScheme.primaryContainer,
-    )
 
     Column {
         CenterAlignedTopAppBar(
