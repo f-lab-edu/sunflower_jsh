@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PlantCard(plantData: PlantInfo) {
+fun PlantCard(plantData: PlantData) {
     Card(
         shape = card,
         modifier = Modifier.padding(
@@ -43,7 +43,7 @@ fun PlantCard(plantData: PlantInfo) {
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
-                text = plantData.planted,
+                text = plantData.plantedDate,
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(bottom = 12.dp),
@@ -58,7 +58,7 @@ fun PlantCard(plantData: PlantInfo) {
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
-                text = plantData.lastWatered,
+                text = plantData.lastWateredDate,
                 modifier = Modifier
                     .align(CenterHorizontally),
                 style = MaterialTheme.typography.bodyMedium,

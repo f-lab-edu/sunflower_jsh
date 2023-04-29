@@ -21,13 +21,10 @@ fun MyGardenScreen() {
             vertical = 8.dp,
             horizontal = 8.dp,
         ),
-            .background(
-                MaterialTheme.colorScheme.primaryContainer,
-            )
     ) {
         items(
-            count = PlantDataObject.plantList.size,
-            itemContent = { PlantCard(PlantDataObject.plantList[it]) },
+            count = MockUpDataList.plantList.size,
+            itemContent = { PlantCard(MockUpDataList.plantList[it]) },
         )
     }
 }
