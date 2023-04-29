@@ -77,7 +77,9 @@ fun PlantCard(plantData: PlantInfo) {
 }
 
 @Composable
-fun PlantImage(@DrawableRes image: Int) {
+fun PlantImage(
+    @DrawableRes image: Int
+) {
     Image(
         painter = painterResource(
             id = image,
