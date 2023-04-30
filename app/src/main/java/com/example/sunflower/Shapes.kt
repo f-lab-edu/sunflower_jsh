@@ -10,3 +10,10 @@ val card: CornerBasedShape = RoundedCornerShape(
     bottomStart = 12.dp,
     bottomEnd = 0.dp,
 )
+
+val add: CornerBasedShape = RoundedCornerShape(
+    topStart = 0.dp,
+    topEnd = 28.dp,
+    bottomStart = 28.dp,
+    bottomEnd = 0.dp,
+)
