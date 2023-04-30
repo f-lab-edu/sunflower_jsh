@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.sunflower.data.PlantViewData
 
 @Composable
-fun PlantCard(plantData: PlantData) {
+fun PlantCard(plantData: PlantViewData) {
     Card(
         shape = card,
         modifier = Modifier.padding(
@@ -36,7 +38,7 @@ fun PlantCard(plantData: PlantData) {
                 color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                text = "Planted",
+                text = stringResource(R.string.planted),
                 modifier = Modifier
                     .align(CenterHorizontally),
                 style = MaterialTheme.typography.bodyMedium,
@@ -51,7 +53,7 @@ fun PlantCard(plantData: PlantData) {
                 color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                text = "Last Watered",
+                text = stringResource(R.string.lastWatered),
                 modifier = Modifier
                     .align(CenterHorizontally),
                 style = MaterialTheme.typography.bodyMedium,
