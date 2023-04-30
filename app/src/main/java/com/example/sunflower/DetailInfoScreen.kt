@@ -1,5 +1,6 @@
 package com.example.sunflower
 
+import com.example.sunflower.data.MockUpDataList
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.sunflower.data.MockUpDataList
 
 @ExperimentalMaterial3Api
 @Preview
@@ -93,10 +93,12 @@ fun DetailInfoScreen() {
 }
 
 @Composable
-fun DetailTextContent(){
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 12.dp)) {
+fun DetailTextContent() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
+    ) {
         Text(
             text = "이름",
             modifier = Modifier
