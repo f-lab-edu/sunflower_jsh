@@ -3,12 +3,7 @@ package com.example.sunflower
 import com.example.sunflower.data.MockUpDataList
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 
 @ExperimentalMaterial3Api
 @Preview
@@ -40,29 +36,12 @@ fun DetailInfoScreen() {
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-        ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1.3f),
-                contentScale = ContentScale.Crop,
-                painter = painterResource(
-                    id = MockUpDataList.plantList[0].image,
-                ),
-                contentDescription = null,
-            )
-
-            DetailTextContent()
-
-        }
-
+        DetailContentView()
         FloatingActionButton(
             modifier = Modifier
-                .padding(8.dp),
+                .align(Alignment.TopStart)
+                .padding(8.dp)
+                .size(48.dp),
             onClick = { /*TODO*/ },
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.secondary,
@@ -77,7 +56,8 @@ fun DetailInfoScreen() {
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(8.dp),
+                .padding(8.dp)
+                .size(48.dp),
             onClick = { /*TODO*/ },
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.secondary,
@@ -92,18 +72,79 @@ fun DetailInfoScreen() {
     }
 }
 
+
 @Composable
-fun DetailTextContent() {
+fun DetailContentView() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 12.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
+        ConstraintLayout {
+            val (
+                image, addBtn, text,
+            ) = createRefs()
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1.3f)
+                    .constrainAs(image) {
+                        top.linkTo(parent.top)
+                    },
+                contentScale = ContentScale.Crop,
+                painter = painterResource(
+                    id = MockUpDataList.plantList[0].image,
+                ),
+                contentDescription = null,
+            )
+            FloatingActionButton(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .constrainAs(addBtn) {
+                        top.linkTo(image.bottom)
+                        bottom.linkTo(text.top)
+                        end.linkTo(parent.end)
+                    },
+                onClick = { /*TODO*/ },
+                shape = add,
+                containerColor = MaterialTheme.colorScheme.secondary,
+                content = {
+                    Icon(
+                        imageVector = ImageVector
+                            .vectorResource(
+                                id = R.drawable.ic_add,
+                            ),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondary,
+                    )
+                },
+            )
+            DetailTextView(
+                Modifier
+                    .fillMaxSize()
+                    .padding(
+                        horizontal = 12.dp,
+                    )
+                    .constrainAs(text) {
+                        top.linkTo(image.bottom)
+                    }
+            )
+        }
+    }
+
+}
+@Composable
+fun DetailTextView(modifier: Modifier) {
+    Column(
+        modifier = modifier
     ) {
         Text(
             text = "이름",
             modifier = Modifier
                 .align(CenterHorizontally)
-                .padding(vertical = 24.dp),
+                .padding(
+                    vertical = 24.dp,
+                ),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
         )
