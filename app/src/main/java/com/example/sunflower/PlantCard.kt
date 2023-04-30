@@ -80,7 +80,7 @@ fun PlantCard(plantData: PlantViewData) {
 
 @Composable
 fun PlantImage(
-    @DrawableRes image: Int
+    @DrawableRes image: Int,
 ) {
     Image(
         painter = painterResource(
