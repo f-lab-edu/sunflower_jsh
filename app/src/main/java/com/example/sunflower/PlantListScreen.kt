@@ -37,7 +37,7 @@ fun PlantListScreen(
         items(
             count = MockUpDataList.plantList.size,
             itemContent = {
-                PlantCardView(it)
+                PlantCardView(it, onNavigateToDetail)
                 Card(
                     shape = card,
                     modifier = Modifier.padding(
@@ -67,14 +67,16 @@ fun PlantListScreen(
                         )
                     }
                 }
+                PlantCardView(it, onNavigateToDetail)
             },
         )
     }
 }
-
+@ExperimentalMaterial3Api
 @Composable
-fun PlantCardView(idx: Int) {
+fun PlantCardView(idx: Int, onNavigateToDetail: () -> Unit) {
     Card(
+        onClick = onNavigateToDetail,
         shape = card,
         modifier = Modifier.padding(
             vertical = 8.dp,
