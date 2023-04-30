@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.sunflower.data.MockUpDataList
 
 @ExperimentalMaterial3Api
 @Composable
@@ -36,36 +37,42 @@ fun PlantListScreen(
         items(
             count = MockUpDataList.plantList.size,
             itemContent = {
-                Card(
-                    shape = card,
-                    modifier = Modifier.padding(
-                        vertical = 8.dp,
-                        horizontal = 8.dp,
-                    ),
-                    onClick = onNavigateToDetail,
-                ) {
-                    Column(
-                        modifier = Modifier.background(
-                            MaterialTheme.colorScheme.primaryContainer,
-                        ),
-                    ) {
-                        PlantImage(
-                            MockUpDataList.plantList[it].image,
-                        )
-
-                        Text(
-                            text = MockUpDataList.plantList[it].name,
-                            modifier = Modifier
-                                .align(CenterHorizontally)
-                                .padding(
-                                    vertical = 12.dp,
-                                ),
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
-                }
+                PlantCardView(it, onNavigateToDetail)
             },
         )
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun PlantCardView(idx: Int, onNavigateToDetail: () -> Unit) {
+    Card(
+        onClick = onNavigateToDetail,
+        shape = card,
+        modifier = Modifier.padding(
+            vertical = 8.dp,
+            horizontal = 8.dp,
+        ),
+    ) {
+        Column(
+            modifier = Modifier.background(
+                MaterialTheme.colorScheme.primaryContainer,
+            ),
+        ) {
+            PlantImage(
+                MockUpDataList.plantList[idx].image,
+            )
+
+            Text(
+                text = MockUpDataList.plantList[idx].name,
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .padding(
+                        vertical = 12.dp,
+                    ),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+        }
     }
 }
