@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -49,7 +50,7 @@ fun MainScreen(
             ),
             title = {
                 Text(
-                    text = "Sunflower",
+                    text = stringResource(id = R.string.app_name),
                     modifier = Modifier
                         .width(IntrinsicSize.Min),
                     style = MaterialTheme.typography.titleLarge,
