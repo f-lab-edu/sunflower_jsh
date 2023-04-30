@@ -73,7 +73,6 @@ fun DetailInfoScreen() {
     }
 }
 
-
 @Composable
 fun DetailContentView() {
     Column(

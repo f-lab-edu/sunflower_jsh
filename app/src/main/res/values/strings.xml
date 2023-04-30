@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Sunflower</string>
+<<<<<<< HEAD
     <string name="planted">Planted</string>
     <string name="lastWatered">Last Watered</string>
+=======
+>>>>>>> fab6727 (정리)
     <string name="wateringNeeds">Watering needs</string>
 </resources>
