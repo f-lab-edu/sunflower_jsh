@@ -95,21 +95,19 @@ fun DetailContentView() {
                 ),
                 contentDescription = null,
             )
-            FloatingActionButton(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .constrainAs(addBtn) {
-                        top.linkTo(image.bottom)
-                        bottom.linkTo(text.top)
-                        end.linkTo(parent.end)
-                    },
+            FloatingActionButton(modifier = Modifier
+                .padding(8.dp)
+                .constrainAs(addBtn) {
+                    top.linkTo(image.bottom)
+                    bottom.linkTo(text.top)
+                    end.linkTo(parent.end)
+                },
                 onClick = { /*TODO*/ },
                 shape = add,
                 containerColor = MaterialTheme.colorScheme.secondary,
                 content = {
                     Icon(
-                        imageVector = ImageVector
-                            .vectorResource(
+                        imageVector = ImageVector.vectorResource(
                                 id = R.drawable.ic_add,
                             ), contentDescription = null
                     )
@@ -122,11 +120,9 @@ fun DetailContentView() {
                     )
                     .constrainAs(text) {
                         top.linkTo(image.bottom)
-                    }
-            )
+                    })
         }
     }
-
 }
 
 @Composable
@@ -146,8 +142,7 @@ fun DetailTextView(modifier: Modifier) {
         )
         Text(
             text = stringResource(R.string.wateringNeeds),
-            modifier = Modifier
-                .align(CenterHorizontally),
+            modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
