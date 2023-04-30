@@ -28,7 +28,7 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun DetailInfoScreen(plantViewData: PlantViewData) {
+fun DetailInfoScreen(plantViewData: PlantViewData, plantListViewModel: PlantListViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +36,7 @@ fun DetailInfoScreen(plantViewData: PlantViewData) {
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        DetailContentView(plantViewData)
+        DetailContentView(plantViewData, plantListViewModel)
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -74,7 +74,7 @@ fun DetailInfoScreen(plantViewData: PlantViewData) {
 
 
 @Composable
-fun DetailContentView(plantViewData: PlantViewData) {
+fun DetailContentView(plantViewData: PlantViewData, plantListViewModel: PlantListViewModel) {
     val context = LocalContext.current
     val addToastMsg = stringResource(R.string.addToastMsg)
     val isPlantedState = remember { mutableStateOf(plantViewData.isPlanted) }
@@ -112,6 +112,7 @@ fun DetailContentView(plantViewData: PlantViewData) {
                     onClick = {
                         plantViewData.isPlanted = true
                         isPlantedState.value = plantViewData.isPlanted
+                        plantListViewModel.update()
                         Toast.makeText(context, addToastMsg, Toast.LENGTH_SHORT).show()
                     },
                     shape = add,

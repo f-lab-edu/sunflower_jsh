@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.sunflower.data.MockUpDataList
 import com.example.sunflower.data.PlantViewData
+import com.example.sunflower.garden.PlantImage
 import kotlinx.coroutines.flow.StateFlow
 
 @ExperimentalMaterial3Api

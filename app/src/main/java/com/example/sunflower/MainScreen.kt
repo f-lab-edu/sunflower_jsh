@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
+import com.example.sunflower.garden.MyGardenScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -105,7 +106,7 @@ fun MainScreen(
             state = pagerState,
         ) {
             when (TabMenu.values()[pagerState.currentPage]) {
-                TabMenu.MY_GARDEN -> MyGardenScreen(plantListViewModel.plantListState)
+                TabMenu.MY_GARDEN -> MyGardenScreen(plantListViewModel.gardenListState)
                 TabMenu.PLANT_LIST -> PlantListScreen(navController, plantListViewModel.plantListState)
             }
         }

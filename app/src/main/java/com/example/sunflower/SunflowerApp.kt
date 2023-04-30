@@ -48,7 +48,8 @@ fun AppNavHost(
         ) { backStackEntry ->
             backStackEntry.arguments?.let { it ->
                 DetailInfoScreen(
-                    plantViewModel.plantListState.value[it.getInt("idx")]
+                    plantViewModel.plantListState.value[it.getInt("idx")],
+                    plantViewModel
                 )
             }
         }

@@ -1,4 +1,4 @@
-package com.example.sunflower
+package com.example.sunflower.garden
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,14 +8,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.sunflower.data.MockUpDataList
 import com.example.sunflower.data.PlantViewData
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun MyGardenScreen(plantListState: StateFlow<List<PlantViewData>>) {
+fun MyGardenScreen(gardenListState: StateFlow<List<PlantViewData>>) {
+
+    val gardenSizeState = remember {gardenListState}
+
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -27,8 +30,8 @@ fun MyGardenScreen(plantListState: StateFlow<List<PlantViewData>>) {
         ),
     ) {
         items(
-            count = MockUpDataList.plantList.size,
-            itemContent = { PlantCard(plantListState.collectAsState().value[it]) },
+            count = gardenListState.value.size,
+            itemContent = { if(gardenSizeState.value.isNotEmpty()) PlantCard(gardenListState.collectAsState().value[it]) },
         )
     }
 }
