@@ -72,6 +72,7 @@ fun DetailInfoScreen() {
     }
 }
 
+
 @Composable
 fun DetailContentView() {
     Column(
@@ -84,30 +85,30 @@ fun DetailContentView() {
                 image, addBtn, text,
             ) = createRefs()
             Image(
+                imageVector = ImageVector.vectorResource(id = MockUpDataList.plantList[0].image),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.3f),
-                contentScale = ContentScale.Crop,
-                painter = painterResource(
-                    id = MockUpDataList.plantList[0].image,
-                ),
-                contentDescription = null,
+                    .aspectRatio(1.3f)
+                    .constrainAs(image) {
+                        top.linkTo(parent.top)
+                    }, contentDescription = null
             )
-            FloatingActionButton(modifier = Modifier
-                .padding(8.dp)
-                .constrainAs(addBtn) {
-                    top.linkTo(image.bottom)
-                    bottom.linkTo(text.top)
-                    end.linkTo(parent.end)
-                },
+            FloatingActionButton(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .constrainAs(addBtn) {
+                        top.linkTo(image.bottom)
+                        bottom.linkTo(text.top)
+                        end.linkTo(parent.end)
+                    },
                 onClick = { /*TODO*/ },
                 shape = add,
                 containerColor = MaterialTheme.colorScheme.secondary,
                 content = {
                     Icon(
                         imageVector = ImageVector.vectorResource(
-                                id = R.drawable.ic_add,
-                            ), contentDescription = null
+                            id = R.drawable.ic_add,
+                        ), contentDescription = null
                     )
                 })
             DetailTextView(
