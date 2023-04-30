@@ -1,5 +1,6 @@
 package com.example.sunflower
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,24 +19,23 @@ import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.sunflower.data.MockUpDataList
+import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
-@Preview
 @Composable
-fun DetailInfoScreen() {
+fun DetailInfoScreen(plantViewData: PlantViewData, plantListViewModel: PlantListViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +43,7 @@ fun DetailInfoScreen() {
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        DetailContentView()
+        DetailContentView(plantViewData, plantListViewModel)
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -80,7 +80,10 @@ fun DetailInfoScreen() {
 }
 
 @Composable
-fun DetailContentView() {
+fun DetailContentView(plantViewData: PlantViewData, plantListViewModel: PlantListViewModel) {
+    val context = LocalContext.current
+    val addToastMsg = stringResource(R.string.addToastMsg)
+    val isPlantedState = remember { mutableStateOf(plantViewData.isPlanted) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -99,38 +102,46 @@ fun DetailContentView() {
                     },
                 contentScale = ContentScale.Crop,
                 painter = painterResource(
-                    id = MockUpDataList.plantList[0].image,
+                    id = plantViewData.image,
                 ),
                 contentDescription = null,
             )
-            FloatingActionButton(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .constrainAs(addBtn) {
-                        top.linkTo(image.bottom)
-                        bottom.linkTo(text.top)
-                        end.linkTo(parent.end)
+            if (!isPlantedState.value) {
+                FloatingActionButton(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .constrainAs(addBtn) {
+                            top.linkTo(image.bottom)
+                            bottom.linkTo(text.top)
+                            end.linkTo(parent.end)
+                        },
+                    onClick = {
+                        plantViewData.isPlanted = true
+                        isPlantedState.value = plantViewData.isPlanted
+                        plantListViewModel.update()
+                        Toast.makeText(context, addToastMsg, Toast.LENGTH_SHORT).show()
                     },
-                onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(
-                    topStart = 0.dp,
-                    topEnd = 28.dp,
-                    bottomStart = 28.dp,
-                    bottomEnd = 0.dp,
-                ),
-                containerColor = MaterialTheme.colorScheme.secondary,
-                content = {
-                    Icon(
-                        imageVector = ImageVector
-                            .vectorResource(
-                                id = R.drawable.ic_add,
-                            ),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondary,
-                    )
-                },
-            )
+                    shape = RoundedCornerShape(
+                        topStart = 0.dp,
+                        topEnd = 28.dp,
+                        bottomStart = 28.dp,
+                        bottomEnd = 0.dp,
+                    ),
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    content = {
+                        Icon(
+                            imageVector = ImageVector
+                                .vectorResource(
+                                    id = R.drawable.ic_add,
+                                ),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondary,
+                        )
+                    },
+                )
+            }
             DetailTextView(
+                plantViewData,
                 Modifier
                     .fillMaxSize()
                     .padding(
@@ -145,12 +156,12 @@ fun DetailContentView() {
 }
 
 @Composable
-fun DetailTextView(modifier: Modifier) {
+fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
     Column(
         modifier = modifier,
     ) {
         Text(
-            text = "이름",
+            text = plantViewData.name,
             modifier = Modifier
                 .align(CenterHorizontally)
                 .padding(
@@ -167,7 +178,7 @@ fun DetailTextView(modifier: Modifier) {
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Text(
-            text = "water 21 days",
+            text = "water ${plantViewData.wateringCycle} days",
             modifier = Modifier
                 .align(CenterHorizontally)
                 .padding(bottom = 12.dp),
@@ -175,12 +186,12 @@ fun DetailTextView(modifier: Modifier) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = "설명\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+            text = plantViewData.explanation,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = "링크",
+            text = plantViewData.sourceLink,
             modifier = Modifier.padding(
                 bottom = 64.dp,
             ),
