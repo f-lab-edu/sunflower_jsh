@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun MyGardenScreen(gardenListState: StateFlow<List<PlantViewData>>) {
-
-    val gardenSizeState = remember {gardenListState}
-
+    val gardenSizeState = remember { gardenListState }
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -31,7 +29,9 @@ fun MyGardenScreen(gardenListState: StateFlow<List<PlantViewData>>) {
     ) {
         items(
             count = gardenListState.value.size,
-            itemContent = { if(gardenSizeState.value.isNotEmpty()) PlantCard(gardenListState.collectAsState().value[it]) },
+            itemContent = {
+                if (gardenSizeState.value.isNotEmpty()) PlantCard(gardenListState.collectAsState().value[it])
+            },
         )
     }
 }

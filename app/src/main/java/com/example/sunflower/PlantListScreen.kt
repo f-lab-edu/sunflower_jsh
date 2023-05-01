@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun PlantListScreen(
     navController: NavController,
-    isPlantedState: StateFlow<List<PlantViewData>>
+    isPlantedState: StateFlow<List<PlantViewData>>,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
