@@ -43,13 +43,17 @@ fun AppNavHost(
             MainScreen(navController = navController, plantViewModel)
         }
         composable(
-            "detailInfoScreen/{idx}",
-            arguments = listOf(navArgument("idx") { type = NavType.IntType }),
+            "detailInfoScreen/{idx}/{fromGarden}",
+            arguments = listOf(
+                navArgument("idx") { type = NavType.IntType },
+                navArgument("fromGarden") { type = NavType.BoolType },
+            ),
         ) { backStackEntry ->
             backStackEntry.arguments?.let { it ->
                 DetailInfoScreen(
                     it.getInt("idx"),
-                    plantViewModel
+                    plantViewModel,
+                    it.getBoolean("fromGarden"),
                 )
             }
         }
