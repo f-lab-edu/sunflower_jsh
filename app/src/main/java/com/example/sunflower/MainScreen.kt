@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,20 +43,20 @@ fun MainScreen() {
 
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.primaryContainer,
     )
 
     Column {
         CenterAlignedTopAppBar(
             modifier = Modifier.fillMaxWidth(),
             colors = centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             ),
             title = {
                 Text(
-                    text = "Sunflower",
+                    text = stringResource(id = R.string.app_name),
                     modifier = Modifier
                         .width(IntrinsicSize.Min),
                     style = MaterialTheme.typography.titleLarge,
@@ -73,11 +74,11 @@ fun MainScreen() {
 
         TabRow(
             selectedTabIndex = pagerState.currentPage,
-            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            backgroundColor = MaterialTheme.colorScheme.primary,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
         ) {
@@ -92,7 +93,7 @@ fun MainScreen() {
                         )
                     },
                     unselectedContentColor = MaterialTheme.colorScheme.inversePrimary,
-                    selectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    selectedContentColor = MaterialTheme.colorScheme.onPrimary,
                     text = {
                         Text(
                             text = item.title,

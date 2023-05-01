@@ -1,20 +1,31 @@
 package com.example.sunflower
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.sunflower.data.MockUpDataList
 
 @Composable
 fun MyGardenScreen() {
-    Column(
+    LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                MaterialTheme.colorScheme.primaryContainer,
-            )
+            .background(color = MaterialTheme.colorScheme.secondary),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            vertical = 8.dp,
+            horizontal = 8.dp,
+        ),
     ) {
+        items(
+            count = MockUpDataList.plantList.size,
+            itemContent = { PlantCard(MockUpDataList.plantList[it]) },
+        )
     }
 }
