@@ -18,11 +18,8 @@ class PlantListViewModel() : ViewModel() {
         _plantListState.value = MockUpDataList.plantList
     }
 
-    fun update() {
-        _plantListState.value.filter { it.isPlanted }.map {
-            if (!_gardenListState.value.contains(it)) {
-                _gardenListState.value.add(it)
-            }
-        }
+    fun addPlantToGarden(idx: Int, plantViewData: PlantViewData) {
+        _plantListState.value[idx] = _plantListState.value[idx].copy(isPlanted = true)
+        _gardenListState.value.add(plantViewData)
     }
 }
