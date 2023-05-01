@@ -9,6 +9,6 @@ data class PlantViewData(
     val explanation: String,
     val plantedDate: String,
     val lastWateredDate: String,
-    var isPlanted: Boolean,
+    val isPlanted: Boolean,
     val sourceLink: String,
 )

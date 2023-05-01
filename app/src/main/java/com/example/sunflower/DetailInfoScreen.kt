@@ -28,7 +28,7 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun DetailInfoScreen(plantViewData: PlantViewData, plantListViewModel: PlantListViewModel) {
+fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +36,7 @@ fun DetailInfoScreen(plantViewData: PlantViewData, plantListViewModel: PlantList
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        DetailContentView(plantViewData, plantListViewModel)
+        DetailContentView(idx, plantListViewModel.plantListState.collectAsState(), plantListViewModel)
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -74,10 +74,10 @@ fun DetailInfoScreen(plantViewData: PlantViewData, plantListViewModel: PlantList
 
 
 @Composable
-fun DetailContentView(plantViewData: PlantViewData, plantListViewModel: PlantListViewModel) {
+fun DetailContentView(idx: Int, plantListState: State<List<PlantViewData>>, plantListViewModel: PlantListViewModel) {
     val context = LocalContext.current
     val addToastMsg = stringResource(R.string.addToastMsg)
-    val isPlantedState = remember { mutableStateOf(plantViewData.isPlanted) }
+    val isPlantedState = remember { mutableStateOf(plantListState.value[idx].isPlanted) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -96,7 +96,7 @@ fun DetailContentView(plantViewData: PlantViewData, plantListViewModel: PlantLis
                     },
                 contentScale = ContentScale.Crop,
                 painter = painterResource(
-                    id = plantViewData.image,
+                    id = plantListState.value[idx].image,
                 ),
                 contentDescription = null,
             )
@@ -110,9 +110,8 @@ fun DetailContentView(plantViewData: PlantViewData, plantListViewModel: PlantLis
                             end.linkTo(parent.end)
                         },
                     onClick = {
-                        plantViewData.isPlanted = true
-                        isPlantedState.value = plantViewData.isPlanted
-                        plantListViewModel.update()
+                        plantListViewModel.addPlantToGarden(idx, plantListState.value[idx].copy(isPlanted = true))
+                        isPlantedState.value = plantListState.value[idx].isPlanted
                         Toast.makeText(context, addToastMsg, Toast.LENGTH_SHORT).show()
                     },
                     shape = add,
@@ -129,7 +128,7 @@ fun DetailContentView(plantViewData: PlantViewData, plantListViewModel: PlantLis
                     },
                 )
             }
-            DetailTextView(plantViewData,
+            DetailTextView(plantListState.value[idx],
                 Modifier
                     .fillMaxSize()
                     .padding(
