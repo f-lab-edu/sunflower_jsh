@@ -43,7 +43,7 @@ fun PlantListScreen(
         items(
             count = MockUpDataList.plantList.size,
             itemContent = {
-                PlantCardView(it, { navController.navigate("detailInfoScreen/${it}/${false}") }, isPlantedState)
+                PlantCardView(it, { navController.navigate("detailInfoScreen/$it/false") }, isPlantedState)
             },
         )
     }
