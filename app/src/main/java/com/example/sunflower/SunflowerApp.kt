@@ -47,7 +47,7 @@ fun AppNavHost(
             arguments = listOf(
                 navArgument("idx") { type = NavType.IntType },
                 navArgument("fromGarden") { type = NavType.BoolType },
-            )
+            ),
         ) { backStackEntry ->
             backStackEntry.arguments?.let { it ->
                 DetailInfoScreen(

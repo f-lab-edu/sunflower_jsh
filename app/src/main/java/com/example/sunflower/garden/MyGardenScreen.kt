@@ -33,10 +33,12 @@ fun MyGardenScreen(navController: NavController, gardenListState: StateFlow<List
         items(
             count = gardenListState.value.size,
             itemContent = {
-                if (gardenSizeState.value.isNotEmpty()) PlantCard(
-                    { navController.navigate("detailInfoScreen/$it/true") },
-                    gardenListState.collectAsState().value[it],
-                )
+                if (gardenSizeState.value.isNotEmpty()) {
+                    PlantCard(
+                        { navController.navigate("detailInfoScreen/$it/true") },
+                        gardenListState.collectAsState().value[it],
+                    )
+                }
             },
         )
     }
