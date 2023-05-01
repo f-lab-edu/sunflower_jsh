@@ -106,7 +106,7 @@ fun MainScreen(
             state = pagerState,
         ) {
             when (TabMenu.values()[pagerState.currentPage]) {
-                TabMenu.MY_GARDEN -> MyGardenScreen(plantListViewModel.gardenListState)
+                TabMenu.MY_GARDEN -> MyGardenScreen(navController, plantListViewModel.gardenListState)
                 TabMenu.PLANT_LIST -> PlantListScreen(navController, plantListViewModel.plantListState)
             }
         }

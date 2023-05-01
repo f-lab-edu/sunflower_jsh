@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,14 +16,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sunflower.R
-import com.example.sunflower.card
 import com.example.sunflower.data.PlantViewData
 
+@ExperimentalMaterial3Api
 @Composable
-fun PlantCard(plantViewData: PlantViewData) {
+fun PlantCard(onNavigateToDetail: () -> Unit, plantViewData: PlantViewData) {
     if (plantViewData.isPlanted) {
         Card(
-            shape = card,
+            onClick = onNavigateToDetail,
             modifier = Modifier.padding(
                 vertical = 8.dp,
                 horizontal = 8.dp,

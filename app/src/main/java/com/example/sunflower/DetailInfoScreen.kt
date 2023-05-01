@@ -38,7 +38,7 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel) {
+fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel, fromGarden: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +46,11 @@ fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel) {
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        DetailContentView(idx, plantListViewModel.plantListState.collectAsState(), plantListViewModel)
+        if (fromGarden) {
+            DetailContentView(idx, plantListViewModel.gardenListState.collectAsState(), plantListViewModel)
+        } else {
+            DetailContentView(idx, plantListViewModel.plantListState.collectAsState(), plantListViewModel)
+        }
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
