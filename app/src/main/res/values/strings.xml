@@ -2,4 +2,5 @@
     <string name="app_name">Sunflower</string>
     <string name="planted">Planted</string>
     <string name="lastWatered">Last Watered</string>
+    <string name="wateringNeeds">Watering needs</string>
 </resources>
