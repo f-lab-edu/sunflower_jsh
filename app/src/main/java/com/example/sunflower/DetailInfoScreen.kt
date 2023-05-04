@@ -1,9 +1,14 @@
 package com.example.sunflower
 
-import com.example.sunflower.data.MockUpDataList
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -24,6 +29,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.sunflower.data.MockUpDataList
 
 @ExperimentalMaterial3Api
 @Preview
@@ -71,7 +77,6 @@ fun DetailInfoScreen() {
         )
     }
 }
-
 
 @Composable
 fun DetailContentView() {
@@ -127,16 +132,16 @@ fun DetailContentView() {
                     )
                     .constrainAs(text) {
                         top.linkTo(image.bottom)
-                    }
+                    },
             )
         }
     }
-
 }
+
 @Composable
 fun DetailTextView(modifier: Modifier) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(
             text = "이름",

@@ -72,6 +72,7 @@ fun PlantListScreen(
         )
     }
 }
+
 @ExperimentalMaterial3Api
 @Composable
 fun PlantCardView(idx: Int, onNavigateToDetail: () -> Unit) {
