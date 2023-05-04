@@ -16,8 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.sunflower.data.MockUpDataList
 import com.example.sunflower.data.PlantViewData
 import com.example.sunflower.garden.PlantImage
 import kotlinx.coroutines.flow.StateFlow
@@ -25,8 +23,8 @@ import kotlinx.coroutines.flow.StateFlow
 @ExperimentalMaterial3Api
 @Composable
 fun PlantListScreen(
-    navController: NavController,
-    isPlantedState: StateFlow<List<PlantViewData>>,
+    onPlantClick: (Int) -> (Boolean) -> Unit,
+    plantListState: StateFlow<List<PlantViewData>>,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -41,9 +39,9 @@ fun PlantListScreen(
         ),
     ) {
         items(
-            count = MockUpDataList.plantList.size,
+            count = plantListState.value.size,
             itemContent = {
-                PlantCardView(it, { navController.navigate("detailInfoScreen/$it/${false}") }, isPlantedState)
+                PlantCardView(it, { onPlantClick(it)(false) }, plantListState)
             },
         )
     }
@@ -51,10 +49,10 @@ fun PlantListScreen(
 
 @ExperimentalMaterial3Api
 @Composable
-fun PlantCardView(idx: Int, onNavigateToDetail: () -> Unit, plantListState: StateFlow<List<PlantViewData>>) {
+fun PlantCardView(idx: Int, onCardClick: () -> Unit, plantListState: StateFlow<List<PlantViewData>>) {
     Card(
-        onClick = onNavigateToDetail,
         shape = PreDefinedCornerBorders.customCard,
+        onClick = onCardClick,
         modifier = Modifier.padding(
             vertical = 8.dp,
             horizontal = 8.dp,

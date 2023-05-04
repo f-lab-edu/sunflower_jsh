@@ -1,6 +1,6 @@
 package com.example.sunflower
 
-import android.widget.Toast
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,8 +20,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,7 +37,7 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel, fromGarden: Boolean) {
+fun DetailInfoScreen(onAddClick: (Context) -> Unit, plantViewData: PlantViewData, checkAdded: () -> Boolean) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -47,11 +45,7 @@ fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel, fromGarde
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        if (fromGarden) {
-            DetailContentView(idx, plantListViewModel.gardenListState.collectAsState(), plantListViewModel)
-        } else {
-            DetailContentView(idx, plantListViewModel.plantListState.collectAsState(), plantListViewModel)
-        }
+        DetailContentView(onAddClick, plantViewData, checkAdded)
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -88,10 +82,9 @@ fun DetailInfoScreen(idx: Int, plantListViewModel: PlantListViewModel, fromGarde
 }
 
 @Composable
-fun DetailContentView(idx: Int, plantListState: State<List<PlantViewData>>, plantListViewModel: PlantListViewModel) {
+fun DetailContentView(onAddClick: (Context) -> Unit, plantViewData: PlantViewData, checkAdded: () -> Boolean) {
     val context = LocalContext.current
-    val addToastMsg = stringResource(R.string.addToastMsg)
-    val isPlantedState = remember { mutableStateOf(plantListState.value[idx].isPlanted) }
+    val isPlantedState = remember { mutableStateOf(plantViewData.isPlanted) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -110,7 +103,7 @@ fun DetailContentView(idx: Int, plantListState: State<List<PlantViewData>>, plan
                     },
                 contentScale = ContentScale.Crop,
                 painter = painterResource(
-                    id = plantListState.value[idx].image,
+                    id = plantViewData.image,
                 ),
                 contentDescription = null,
             )
@@ -124,9 +117,9 @@ fun DetailContentView(idx: Int, plantListState: State<List<PlantViewData>>, plan
                             end.linkTo(parent.end)
                         },
                     onClick = {
-                        plantListViewModel.addPlantToGarden(idx, plantListState.value[idx].copy(isPlanted = true))
-                        isPlantedState.value = plantListState.value[idx].isPlanted
-                        Toast.makeText(context, addToastMsg, Toast.LENGTH_SHORT).show()
+                        onAddClick(context)
+                        val isAdded = checkAdded.invoke()
+                        isPlantedState.value = isAdded
                     },
                     shape = RoundedCornerShape(
                         topStart = 0.dp,
@@ -148,7 +141,7 @@ fun DetailContentView(idx: Int, plantListState: State<List<PlantViewData>>, plan
                 )
             }
             DetailTextView(
-                plantListState.value[idx],
+                plantViewData,
                 Modifier
                     .fillMaxSize()
                     .padding(

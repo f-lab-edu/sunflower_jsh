@@ -9,17 +9,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.sunflower.data.PlantViewData
 import kotlinx.coroutines.flow.StateFlow
 
 @ExperimentalMaterial3Api
 @Composable
-fun MyGardenScreen(navController: NavController, gardenListState: StateFlow<List<PlantViewData>>) {
-    val gardenSizeState = remember { gardenListState }
+fun MyGardenScreen(onPlantClick: (Int) -> (Boolean) -> Unit, gardenListState: StateFlow<List<PlantViewData>>) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -33,9 +30,9 @@ fun MyGardenScreen(navController: NavController, gardenListState: StateFlow<List
         items(
             count = gardenListState.value.size,
             itemContent = {
-                if (gardenSizeState.value.isNotEmpty()) {
+                if (gardenListState.value.isNotEmpty()) {
                     PlantCard(
-                        { navController.navigate("detailInfoScreen/$it/${true}") },
+                        { onPlantClick(it)(true) },
                         gardenListState.collectAsState().value[it],
                     )
                 }

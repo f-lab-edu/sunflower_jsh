@@ -20,10 +20,10 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun PlantCard(onNavigateToDetail: () -> Unit, plantViewData: PlantViewData) {
+fun PlantCard(onCardClick: () -> Unit, plantViewData: PlantViewData) {
     if (plantViewData.isPlanted) {
         Card(
-            onClick = onNavigateToDetail,
+            onClick = onCardClick,
             modifier = Modifier.padding(
                 vertical = 8.dp,
                 horizontal = 8.dp,

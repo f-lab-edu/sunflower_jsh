@@ -1,8 +1,10 @@
 package com.example.sunflower
 
+import android.content.Context
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -33,14 +35,22 @@ fun AppNavHost(
         navController = navController,
         startDestination = "mainScreen",
     ) {
-        val plantViewModel = PlantListViewModel()
+        val plantListViewModel = PlantListViewModel()
 
-        plantViewModel.init()
+        plantListViewModel.init()
+
+        val navigateToDetail: (Int) -> (Boolean) -> Unit =
+            { i -> { b -> navController.navigate("detailInfoScreen/$i/$b") } }
+        val addPlantToGarden: (Int) -> (Context) -> Unit =
+            { i -> { context -> plantListViewModel.addPlantToGarden(i, context) } }
+        val checkAdded: (Int) -> Boolean = { i ->
+            plantListViewModel.checkAdded(i)
+        }
 
         composable(
             "mainScreen",
         ) {
-            MainScreen(navController = navController, plantViewModel)
+            MainScreen(navigateToDetail, plantListViewModel)
         }
         composable(
             "detailInfoScreen/{idx}/{fromGarden}",
@@ -51,10 +61,13 @@ fun AppNavHost(
         ) { backStackEntry ->
             backStackEntry.arguments?.let { it ->
                 DetailInfoScreen(
-                    it.getInt("idx"),
-                    plantViewModel,
-                    it.getBoolean("fromGarden"),
-                )
+                    addPlantToGarden(it.getInt("idx")),
+                    if (it.getBoolean("fromGarden")) {
+                        plantListViewModel.gardenListState.collectAsState().value[it.getInt("idx")]
+                    } else {
+                        plantListViewModel.plantListState.collectAsState().value[it.getInt("idx")]
+                    },
+                ) { checkAdded(it.getInt("idx")) }
             }
         }
     }
