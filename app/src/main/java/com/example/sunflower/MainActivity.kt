@@ -12,9 +12,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val plantListViewModel = PlantListViewModel()
+
         setContent {
             SunflowerTheme {
-                SunflowerApp()
+                SunflowerApp(plantListViewModel)
             }
         }
     }

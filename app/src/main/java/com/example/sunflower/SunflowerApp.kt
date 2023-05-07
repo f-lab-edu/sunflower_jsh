@@ -15,7 +15,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @ExperimentalMaterial3Api
 @Composable
-fun SunflowerApp() {
+fun SunflowerApp(plantListViewModel: PlantListViewModel) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         color = MaterialTheme.colorScheme.primaryContainer,
@@ -23,6 +23,7 @@ fun SunflowerApp() {
     val navController = rememberNavController()
     AppNavHost(
         navController = navController,
+        plantListViewModel = plantListViewModel,
     )
 }
 
@@ -30,13 +31,12 @@ fun SunflowerApp() {
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    plantListViewModel: PlantListViewModel,
 ) {
     NavHost(
         navController = navController,
         startDestination = "mainScreen",
     ) {
-        val plantListViewModel = PlantListViewModel()
-
         val navigateToDetail: (Int, Boolean) -> Unit =
             { index, isFromGardenScreen -> navController.navigate("detailInfoScreen/$index/$isFromGardenScreen") }
         val addPlantToGarden: (Int) -> (Context) -> Unit =

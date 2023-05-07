@@ -1,9 +1,7 @@
 package com.example.sunflower.data
 
-import androidx.annotation.DrawableRes
-
 data class PlantViewData(
-    @DrawableRes val imageResId: Int,
+    val imageUrl: String,
     val name: String,
     val wateringCycle: String,
     val explanation: String,
