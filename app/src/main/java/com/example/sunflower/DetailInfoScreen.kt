@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -111,7 +112,12 @@ fun DetailContentView() {
                         end.linkTo(parent.end)
                     },
                 onClick = { /*TODO*/ },
-                shape = add,
+                shape = RoundedCornerShape(
+                    topStart = 0.dp,
+                    topEnd = 28.dp,
+                    bottomStart = 28.dp,
+                    bottomEnd = 0.dp,
+                ),
                 containerColor = MaterialTheme.colorScheme.secondary,
                 content = {
                     Icon(

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -19,7 +20,7 @@ import com.example.sunflower.data.PlantViewData
 @Composable
 fun PlantCard(plantData: PlantViewData) {
     Card(
-        shape = card,
+        shape = Shapes().customCard,
         modifier = Modifier.padding(
             vertical = 8.dp,
             horizontal = 8.dp,

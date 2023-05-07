@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -39,7 +40,7 @@ fun PlantListScreen(
             itemContent = {
                 PlantCardView(it, onNavigateToDetail)
                 Card(
-                    shape = card,
+                    shape = Shapes().customCard,
                     modifier = Modifier.padding(
                         vertical = 8.dp,
                         horizontal = 8.dp,
@@ -78,7 +79,7 @@ fun PlantListScreen(
 fun PlantCardView(idx: Int, onNavigateToDetail: () -> Unit) {
     Card(
         onClick = onNavigateToDetail,
-        shape = card,
+        shape = Shapes().customCard,
         modifier = Modifier.padding(
             vertical = 8.dp,
             horizontal = 8.dp,
