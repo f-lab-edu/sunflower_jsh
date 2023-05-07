@@ -1,6 +1,5 @@
 package com.example.sunflower
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,11 +23,11 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.AsyncImage
 import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
@@ -97,7 +96,7 @@ fun DetailContentView(
             val (
                 image, addButton, text,
             ) = createRefs()
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1.3f)
@@ -105,9 +104,7 @@ fun DetailContentView(
                         top.linkTo(parent.top)
                     },
                 contentScale = ContentScale.Crop,
-                painter = painterResource(
-                    id = plantViewData.imageResId,
-                ),
+                model = plantViewData.imageUrl,
                 contentDescription = null,
             )
             if (!plantViewData.isPlanted) {

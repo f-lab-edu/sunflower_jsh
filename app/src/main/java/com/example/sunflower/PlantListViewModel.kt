@@ -1,34 +1,91 @@
 package com.example.sunflower
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.sunflower.data.PlantViewData
+import com.example.sunflower.network.ApiResult
+import com.example.sunflower.network.UnsplashService
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 private const val PLANT_LIST = "plantList"
 private const val GARDEN_LIST = "gardenList"
 
 class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+
     val plantListState: StateFlow<List<PlantViewData>> = savedStateHandle.getStateFlow(
         PLANT_LIST,
-        listOf(
-            PlantViewData(R.drawable.img_apple, "이름1", "3", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름2", "4", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름3", "5", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름4", "6", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름5", "7", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름6", "8", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름7", "9", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData(R.drawable.img_apple, "이름8", "1", "설명", "심은날짜", "물준날짜", false, "출처"),
-        ),
+        emptyList(),
     )
 
     val gardenListState: StateFlow<List<PlantViewData>> = savedStateHandle.getStateFlow(
         GARDEN_LIST,
         emptyList(),
     )
+
+    private var plantList: List<PlantViewData>
+        get() = savedStateHandle.get<List<PlantViewData>>(PLANT_LIST).orEmpty()
+        set(value) {
+            savedStateHandle[PLANT_LIST] = value
+        }
+
+    private var gardenList: List<PlantViewData>
+        get() = savedStateHandle.get<List<PlantViewData>>(GARDEN_LIST).orEmpty()
+        set(value) {
+            savedStateHandle[GARDEN_LIST] = value
+        }
+
+    init {
+        plantList = listOf(
+            PlantViewData("sunflower", "sunflower", "3", "설명", "심은날짜", "물준날짜", false, "출처"),
+            PlantViewData("rose", "rose", "4", "설명", "심은날짜", "물준날짜", false, "출처"),
+            PlantViewData("hydrangea", "hydrangea", "5", "설명", "심은날짜", "물준날짜", false, "출처"),
+            PlantViewData("gerbera", "gerbera", "6", "설명", "심은날짜", "물준날짜", false, "출처"),
+        )
+
+        callPlantImages()
+    }
+
+    private fun callPlantImages() {
+        viewModelScope.launch {
+            val responses = plantList
+                .map { plant ->
+                    async {
+                        try {
+                            ApiResult.Success(
+                                UnsplashService.unsplashService
+                                    .searchPhotos(
+                                        BuildConfig.UNSPLASH_API_APP_KEY,
+                                        plant.plantName,
+                                    ),
+                            )
+                        } catch (e: Exception) {
+                            ApiResult.Failure(e.message)
+                        }
+                    }
+                }.awaitAll()
+
+            responses.forEachIndexed { index, response ->
+                when (response) {
+                    is ApiResult.Success -> {
+                        val imageUrl = response.value.results[0].urls.thumb
+                        val initializedPlant = plantList[index].copy(imageUrl = imageUrl)
+                        val newPlantList = plantList.toMutableList().apply {
+                            this[index] = initializedPlant
+                        }
+                        plantList = newPlantList
+                    }
+                    is ApiResult.Failure -> Log.e(TAG, response.message.toString())
+                }
+            }
+        }
+    }
 
     fun findPlantByName(plantName: String): PlantViewData? =
         plantList.find { plantViewData -> plantViewData.plantName == plantName }
@@ -65,15 +122,7 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
         return PlantToGardenResult.Success
     }
 
-    private var plantList: List<PlantViewData>
-        get() = savedStateHandle.get<List<PlantViewData>>(PLANT_LIST).orEmpty()
-        set(value) {
-            savedStateHandle[PLANT_LIST] = value
-        }
-
-    private var gardenList: List<PlantViewData>
-        get() = savedStateHandle.get<List<PlantViewData>>(GARDEN_LIST).orEmpty()
-        set(value) {
-            savedStateHandle[GARDEN_LIST] = value
-        }
+    private companion object {
+        const val TAG = "Unsplash API"
+    }
 }
