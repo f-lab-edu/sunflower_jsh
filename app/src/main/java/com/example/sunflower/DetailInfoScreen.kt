@@ -37,7 +37,11 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun DetailInfoScreen(onAddClick: (Context) -> Unit, plantViewData: PlantViewData, checkAdded: () -> Boolean) {
+fun DetailInfoScreen(
+    onClickAddButton: (Context) -> Unit,
+    plantViewData: PlantViewData,
+    checkIsPlantPlanted: () -> Boolean,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +49,7 @@ fun DetailInfoScreen(onAddClick: (Context) -> Unit, plantViewData: PlantViewData
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        DetailContentView(onAddClick, plantViewData, checkAdded)
+        DetailContentView(onClickAddButton, plantViewData, checkIsPlantPlanted)
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -82,7 +86,11 @@ fun DetailInfoScreen(onAddClick: (Context) -> Unit, plantViewData: PlantViewData
 }
 
 @Composable
-fun DetailContentView(onAddClick: (Context) -> Unit, plantViewData: PlantViewData, checkAdded: () -> Boolean) {
+fun DetailContentView(
+    onClickAddButton: (Context) -> Unit,
+    plantViewData: PlantViewData,
+    checkIsPlantPlanted: () -> Boolean,
+) {
     val context = LocalContext.current
     val isPlantedState = remember { mutableStateOf(plantViewData.isPlanted) }
     Column(
@@ -103,7 +111,7 @@ fun DetailContentView(onAddClick: (Context) -> Unit, plantViewData: PlantViewDat
                     },
                 contentScale = ContentScale.Crop,
                 painter = painterResource(
-                    id = plantViewData.image,
+                    id = plantViewData.imageResId,
                 ),
                 contentDescription = null,
             )
@@ -117,9 +125,9 @@ fun DetailContentView(onAddClick: (Context) -> Unit, plantViewData: PlantViewDat
                             end.linkTo(parent.end)
                         },
                     onClick = {
-                        onAddClick(context)
-                        val isAdded = checkAdded.invoke()
-                        isPlantedState.value = isAdded
+                        onClickAddButton(context)
+                        val isPlanted = checkIsPlantPlanted.invoke()
+                        isPlantedState.value = isPlanted
                     },
                     shape = RoundedCornerShape(
                         topStart = 0.dp,

@@ -1,6 +1,7 @@
 package com.example.sunflower
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.sunflower.data.PlantViewData
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ class PlantListViewModel() : ViewModel() {
 
     val gardenListState: StateFlow<List<PlantViewData>> = _gardenListState.asStateFlow()
 
-    fun init() {
+    init {
         _plantListState.value = mutableListOf<PlantViewData>(
             PlantViewData(R.drawable.img_apple, "이름1", "3", "설명", "심은날짜", "물준날짜", false, "출처"),
             PlantViewData(R.drawable.img_apple, "이름2", "4", "설명", "심은날짜", "물준날짜", false, "출처"),
@@ -32,8 +33,8 @@ class PlantListViewModel() : ViewModel() {
     fun addPlantToGarden(idx: Int, context: Context) {
         _plantListState.value[idx] = _plantListState.value[idx].copy(isPlanted = true)
         _gardenListState.value.add(_plantListState.value[idx])
-        ToastUtil.addPlantToast(context)
+        Toast.makeText(context, R.string.addToastMsg, Toast.LENGTH_SHORT).show()
     }
 
-    fun checkAdded(idx: Int): Boolean = _plantListState.value[idx].isPlanted
+    fun checkIsPlantPlantedAtIndex(idx: Int): Boolean = _plantListState.value[idx].isPlanted
 }

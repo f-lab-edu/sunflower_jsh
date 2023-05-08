@@ -12,19 +12,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.sunflower.data.PlantViewData
 import com.example.sunflower.garden.PlantImage
-import kotlinx.coroutines.flow.StateFlow
 
 @ExperimentalMaterial3Api
 @Composable
 fun PlantListScreen(
-    onPlantClick: (Int) -> (Boolean) -> Unit,
-    plantListState: StateFlow<List<PlantViewData>>,
+    plantViewDataList: List<PlantViewData>,
+    onClickPlantCard: (Int, Boolean) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -38,10 +36,13 @@ fun PlantListScreen(
             horizontal = 8.dp,
         ),
     ) {
+        val isFromGardenScreen = false
         items(
-            count = plantListState.value.size,
-            itemContent = {
-                PlantCardView(it, { onPlantClick(it)(false) }, plantListState)
+            count = plantViewDataList.size,
+            itemContent = { index ->
+                PlantCardView(onCardClick = {
+                    onClickPlantCard(index, isFromGardenScreen)
+                }, plantViewData = plantViewDataList[index])
             },
         )
     }
@@ -49,7 +50,7 @@ fun PlantListScreen(
 
 @ExperimentalMaterial3Api
 @Composable
-fun PlantCardView(idx: Int, onCardClick: () -> Unit, plantListState: StateFlow<List<PlantViewData>>) {
+fun PlantCardView(plantViewData: PlantViewData, onCardClick: () -> Unit) {
     Card(
         shape = PreDefinedCornerBorders.customCard,
         onClick = onCardClick,
@@ -64,11 +65,11 @@ fun PlantCardView(idx: Int, onCardClick: () -> Unit, plantListState: StateFlow<L
             ),
         ) {
             PlantImage(
-                plantListState.collectAsState().value[idx].image,
+                plantViewData.imageResId,
             )
 
             Text(
-                text = plantListState.collectAsState().value[idx].name,
+                text = plantViewData.name,
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(

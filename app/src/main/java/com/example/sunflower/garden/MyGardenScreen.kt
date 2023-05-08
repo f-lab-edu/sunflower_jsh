@@ -8,15 +8,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.sunflower.data.PlantViewData
-import kotlinx.coroutines.flow.StateFlow
 
 @ExperimentalMaterial3Api
 @Composable
-fun MyGardenScreen(onPlantClick: (Int) -> (Boolean) -> Unit, gardenListState: StateFlow<List<PlantViewData>>) {
+fun MyGardenScreen(plantViewDataList: List<PlantViewData>, onPlantCardClick: (Int, Boolean) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -28,12 +26,13 @@ fun MyGardenScreen(onPlantClick: (Int) -> (Boolean) -> Unit, gardenListState: St
         ),
     ) {
         items(
-            count = gardenListState.value.size,
-            itemContent = {
-                if (gardenListState.value.isNotEmpty()) {
+            count = plantViewDataList.size,
+            itemContent = { index ->
+                if (plantViewDataList.isNotEmpty()) {
+                    val isFromGardenScreen = true
                     PlantCard(
-                        { onPlantClick(it)(true) },
-                        gardenListState.collectAsState().value[it],
+                        onCardClick = { onPlantCardClick(index, isFromGardenScreen) },
+                        plantViewData = plantViewDataList[index],
                     )
                 }
             },

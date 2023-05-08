@@ -37,14 +37,12 @@ fun AppNavHost(
     ) {
         val plantListViewModel = PlantListViewModel()
 
-        plantListViewModel.init()
-
-        val navigateToDetail: (Int) -> (Boolean) -> Unit =
-            { i -> { b -> navController.navigate("detailInfoScreen/$i/$b") } }
+        val navigateToDetail: (Int, Boolean) -> Unit =
+            { index, isFromGardenScreen -> navController.navigate("detailInfoScreen/$index/$isFromGardenScreen") }
         val addPlantToGarden: (Int) -> (Context) -> Unit =
-            { i -> { context -> plantListViewModel.addPlantToGarden(i, context) } }
-        val checkAdded: (Int) -> Boolean = { i ->
-            plantListViewModel.checkAdded(i)
+            { index -> { context -> plantListViewModel.addPlantToGarden(index, context) } }
+        val checkIsPlantInGardenAtIndex: (Int) -> Boolean = { i ->
+            plantListViewModel.checkIsPlantPlantedAtIndex(i)
         }
 
         composable(
@@ -53,21 +51,21 @@ fun AppNavHost(
             MainScreen(navigateToDetail, plantListViewModel)
         }
         composable(
-            "detailInfoScreen/{idx}/{fromGarden}",
+            "detailInfoScreen/{index}/{isFromGarden}",
             arguments = listOf(
-                navArgument("idx") { type = NavType.IntType },
-                navArgument("fromGarden") { type = NavType.BoolType },
+                navArgument("index") { type = NavType.IntType },
+                navArgument("isFromGarden") { type = NavType.BoolType },
             ),
         ) { backStackEntry ->
             backStackEntry.arguments?.let { it ->
                 DetailInfoScreen(
-                    addPlantToGarden(it.getInt("idx")),
-                    if (it.getBoolean("fromGarden")) {
-                        plantListViewModel.gardenListState.collectAsState().value[it.getInt("idx")]
+                    addPlantToGarden(it.getInt("index")),
+                    if (it.getBoolean("isFromGarden")) {
+                        plantListViewModel.gardenListState.collectAsState().value[it.getInt("index")]
                     } else {
-                        plantListViewModel.plantListState.collectAsState().value[it.getInt("idx")]
+                        plantListViewModel.plantListState.collectAsState().value[it.getInt("index")]
                     },
-                ) { checkAdded(it.getInt("idx")) }
+                ) { checkIsPlantInGardenAtIndex(it.getInt("index")) }
             }
         }
     }

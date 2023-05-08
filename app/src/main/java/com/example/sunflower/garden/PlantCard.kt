@@ -20,7 +20,7 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun PlantCard(onCardClick: () -> Unit, plantViewData: PlantViewData) {
+fun PlantCard(plantViewData: PlantViewData, onCardClick: () -> Unit) {
     if (plantViewData.isPlanted) {
         Card(
             onClick = onCardClick,
@@ -32,7 +32,7 @@ fun PlantCard(onCardClick: () -> Unit, plantViewData: PlantViewData) {
             Column(
                 modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
             ) {
-                PlantImage(plantViewData.image)
+                PlantImage(plantViewData.imageResId)
                 Text(
                     text = plantViewData.name,
                     modifier = Modifier
@@ -85,11 +85,11 @@ fun PlantCard(onCardClick: () -> Unit, plantViewData: PlantViewData) {
 
 @Composable
 fun PlantImage(
-    @DrawableRes image: Int,
+    @DrawableRes imageResId: Int,
 ) {
     Image(
         painter = painterResource(
-            id = image,
+            id = imageResId,
         ),
         contentDescription = null,
     )

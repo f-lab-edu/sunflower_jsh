@@ -14,6 +14,7 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.centerAlignedTopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,7 +37,7 @@ enum class TabMenu(val title: String, val icon: Int) {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainScreen(
-    onPlantClick: (Int) -> (Boolean) -> Unit,
+    onClickPlantCard: (Int, Boolean) -> Unit,
     plantListViewModel: PlantListViewModel,
 ) {
     val pagerState = rememberPagerState()
@@ -105,8 +106,14 @@ fun MainScreen(
             state = pagerState,
         ) {
             when (TabMenu.values()[pagerState.currentPage]) {
-                TabMenu.MY_GARDEN -> MyGardenScreen(onPlantClick, plantListViewModel.gardenListState)
-                TabMenu.PLANT_LIST -> PlantListScreen(onPlantClick, plantListViewModel.plantListState)
+                TabMenu.MY_GARDEN -> MyGardenScreen(
+                    onPlantCardClick = onClickPlantCard,
+                    plantViewDataList = plantListViewModel.gardenListState.collectAsState().value,
+                )
+                TabMenu.PLANT_LIST -> PlantListScreen(
+                    onClickPlantCard = onClickPlantCard,
+                    plantViewDataList = plantListViewModel.plantListState.collectAsState().value,
+                )
             }
         }
     }
