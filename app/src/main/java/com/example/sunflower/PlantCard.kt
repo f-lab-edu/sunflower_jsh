@@ -19,7 +19,7 @@ import com.example.sunflower.data.PlantViewData
 @Composable
 fun PlantCard(plantData: PlantViewData) {
     Card(
-        shape = card,
+        shape = PreDefinedCornerBorders.customCard,
         modifier = Modifier.padding(
             vertical = 8.dp,
             horizontal = 8.dp,
