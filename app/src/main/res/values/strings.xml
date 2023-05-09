@@ -3,5 +3,6 @@
     <string name="planted">Planted</string>
     <string name="lastWatered">Last Watered</string>
     <string name="wateringNeeds">Watering needs</string>
-    <string name="addToastMsg">Added Plant to Garden</string>
+    <string name="add_toast_message">Added Plant to Garden</string>
+    <string name="error_message">Something went wrong! Please try again!</string>
 </resources>

@@ -34,7 +34,7 @@ fun PlantCard(plantViewData: PlantViewData, onCardClick: () -> Unit) {
             ) {
                 PlantImage(plantViewData.imageResId)
                 Text(
-                    text = plantViewData.name,
+                    text = plantViewData.plantName,
                     modifier = Modifier
                         .align(CenterHorizontally)
                         .padding(vertical = 12.dp),

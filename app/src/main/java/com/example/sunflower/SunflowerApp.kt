@@ -4,24 +4,27 @@ import android.content.Context
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.sunflower.data.PlantViewData
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import org.jetbrains.annotations.Nullable
 
 @ExperimentalMaterial3Api
 @Composable
-fun SunflowerApp() {
+fun SunflowerApp(context: Context, plantListViewModel: PlantListViewModel) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         color = MaterialTheme.colorScheme.primaryContainer,
     )
     val navController = rememberNavController()
     AppNavHost(
+        context,
+        plantListViewModel = plantListViewModel,
         navController = navController,
     )
 }
@@ -29,43 +32,46 @@ fun SunflowerApp() {
 @ExperimentalMaterial3Api
 @Composable
 fun AppNavHost(
+    context: Context,
+    plantListViewModel: PlantListViewModel,
     navController: NavHostController,
 ) {
     NavHost(
         navController = navController,
         startDestination = "mainScreen",
     ) {
-        val plantListViewModel = PlantListViewModel()
+        val navigateToDetail: (String) -> Unit =
+            { plantName -> navController.navigate("detailInfoScreen/$plantName") }
+        val addPlantToGarden: (String, Context) -> Unit =
+            { plantName, context -> plantListViewModel.addPlantToGarden(plantName, context) }
+        val checkIsPlantInGarden: (PlantName, Context) -> IsPlanted = { plantName, context ->
+            plantListViewModel.checkIsPlantPlanted(plantName, context)
+        }
 
-        val navigateToDetail: (Int, Boolean) -> Unit =
-            { index, isFromGardenScreen -> navController.navigate("detailInfoScreen/$index/$isFromGardenScreen") }
-        val addPlantToGarden: (Int) -> (Context) -> Unit =
-            { index -> { context -> plantListViewModel.addPlantToGarden(index, context) } }
-        val checkIsPlantInGardenAtIndex: (Int) -> Boolean = { i ->
-            plantListViewModel.checkIsPlantPlantedAtIndex(i)
+        @Nullable
+        val findSelectedPlant: (PlantName) -> PlantViewData? = { plantName ->
+            plantListViewModel.findSelectedPlantViewData(plantName)
         }
 
         composable(
             "mainScreen",
         ) {
-            MainScreen(navigateToDetail, plantListViewModel)
+            MainScreen(onClickPlantCard = navigateToDetail, plantListViewModel = plantListViewModel)
         }
         composable(
-            "detailInfoScreen/{index}/{isFromGarden}",
+            "detailInfoScreen/{plantName}",
             arguments = listOf(
-                navArgument("index") { type = NavType.IntType },
-                navArgument("isFromGarden") { type = NavType.BoolType },
+                navArgument("plantName") { type = NavType.StringType },
             ),
         ) { backStackEntry ->
-            backStackEntry.arguments?.let { it ->
-                DetailInfoScreen(
-                    addPlantToGarden(it.getInt("index")),
-                    if (it.getBoolean("isFromGarden")) {
-                        plantListViewModel.gardenListState.collectAsState().value[it.getInt("index")]
-                    } else {
-                        plantListViewModel.plantListState.collectAsState().value[it.getInt("index")]
-                    },
-                ) { checkIsPlantInGardenAtIndex(it.getInt("index")) }
+            backStackEntry.arguments?.let { bundle ->
+                findSelectedPlant(bundle.getString("plantName").toString())?.let { plantViewData ->
+                    DetailInfoScreen(
+                        onClickAddButton = { addPlantToGarden(plantViewData.plantName, context) },
+                        plantViewData = plantViewData,
+                        checkIsPlantPlanted = { checkIsPlantInGarden(plantViewData.plantName, context) },
+                    )
+                }
             }
         }
     }

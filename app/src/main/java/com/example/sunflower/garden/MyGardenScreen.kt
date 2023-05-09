@@ -10,11 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.sunflower.PlantName
 import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun MyGardenScreen(plantViewDataList: List<PlantViewData>, onPlantCardClick: (Int, Boolean) -> Unit) {
+fun MyGardenScreen(plantViewDataList: List<PlantViewData>, onClickPlantCard: (PlantName) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -29,9 +30,8 @@ fun MyGardenScreen(plantViewDataList: List<PlantViewData>, onPlantCardClick: (In
             count = plantViewDataList.size,
             itemContent = { index ->
                 if (plantViewDataList.isNotEmpty()) {
-                    val isFromGardenScreen = true
                     PlantCard(
-                        onCardClick = { onPlantCardClick(index, isFromGardenScreen) },
+                        onCardClick = { onClickPlantCard(plantViewDataList[index].plantName) },
                         plantViewData = plantViewDataList[index],
                     )
                 }

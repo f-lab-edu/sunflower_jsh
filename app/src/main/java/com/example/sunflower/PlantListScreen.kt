@@ -22,7 +22,7 @@ import com.example.sunflower.garden.PlantImage
 @Composable
 fun PlantListScreen(
     plantViewDataList: List<PlantViewData>,
-    onClickPlantCard: (Int, Boolean) -> Unit,
+    onClickPlantCard: (PlantName) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -36,12 +36,11 @@ fun PlantListScreen(
             horizontal = 8.dp,
         ),
     ) {
-        val isFromGardenScreen = false
         items(
             count = plantViewDataList.size,
             itemContent = { index ->
-                PlantCardView(onCardClick = {
-                    onClickPlantCard(index, isFromGardenScreen)
+                PlantCardView(onClickCard = {
+                    onClickPlantCard(plantViewDataList[index].plantName)
                 }, plantViewData = plantViewDataList[index])
             },
         )
@@ -50,10 +49,10 @@ fun PlantListScreen(
 
 @ExperimentalMaterial3Api
 @Composable
-fun PlantCardView(plantViewData: PlantViewData, onCardClick: () -> Unit) {
+fun PlantCardView(plantViewData: PlantViewData, onClickCard: () -> Unit) {
     Card(
         shape = PreDefinedCornerBorders.customCard,
-        onClick = onCardClick,
+        onClick = onClickCard,
         modifier = Modifier.padding(
             vertical = 8.dp,
             horizontal = 8.dp,
@@ -69,7 +68,7 @@ fun PlantCardView(plantViewData: PlantViewData, onCardClick: () -> Unit) {
             )
 
             Text(
-                text = plantViewData.name,
+                text = plantViewData.plantName,
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(
