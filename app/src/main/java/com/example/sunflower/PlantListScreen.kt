@@ -57,26 +57,30 @@ fun PlantCardView(plantViewData: PlantViewData, onClickCard: () -> Unit) {
             vertical = 8.dp,
             horizontal = 8.dp,
         ),
-    ) {
-        Column(
-            modifier = Modifier.background(
-                MaterialTheme.colorScheme.primaryContainer,
-            ),
-        ) {
-            PlantImage(
-                plantViewData.imageResId,
-            )
+        content = { PlantCardViewContent(plantViewData) }
+    )
+}
 
-            Text(
-                text = plantViewData.plantName,
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(
-                        vertical = 12.dp,
-                    ),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
+@Composable
+fun PlantCardViewContent(plantViewData: PlantViewData) {
+    Column(
+        modifier = Modifier.background(
+            MaterialTheme.colorScheme.primaryContainer,
+        ),
+    ) {
+        PlantImage(
+            plantViewData.imageResId,
+        )
+
+        Text(
+            text = plantViewData.plantName,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(
+                    vertical = 12.dp,
+                ),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     }
 }

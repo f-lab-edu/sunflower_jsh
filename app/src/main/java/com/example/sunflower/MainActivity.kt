@@ -8,16 +8,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.sunflower.theme.SunflowerTheme
 
 class MainActivity : AppCompatActivity() {
+    private val plantListViewModel: PlantListViewModel by viewModels()
 
     @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val plantListViewModel: PlantListViewModel by viewModels()
-
         setContent {
             SunflowerTheme {
-                SunflowerApp(this, plantListViewModel)
+                SunflowerApp(plantListViewModel)
             }
         }
     }
