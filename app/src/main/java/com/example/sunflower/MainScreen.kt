@@ -38,7 +38,7 @@ enum class TabMenu(val title: String, val icon: Int) {
 @Composable
 fun MainScreen(
     plantListViewModel: PlantListViewModel,
-    onClickPlantCard: (PlantName) -> Unit,
+    onClickPlantCard: (plantName: String) -> Unit,
 ) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -107,12 +107,12 @@ fun MainScreen(
         ) {
             when (TabMenu.values()[pagerState.currentPage]) {
                 TabMenu.MY_GARDEN -> MyGardenScreen(
-                    onClickPlantCard = onClickPlantCard,
-                    plantViewDataList = plantListViewModel.gardenListState.collectAsState().value,
+                    plantListViewModel.gardenListState.collectAsState().value,
+                    onClickPlantCard,
                 )
                 TabMenu.PLANT_LIST -> PlantListScreen(
-                    onClickPlantCard = onClickPlantCard,
-                    plantViewDataList = plantListViewModel.plantListState.collectAsState().value,
+                    plantListViewModel.plantListState.collectAsState().value,
+                    onClickPlantCard,
                 )
             }
         }

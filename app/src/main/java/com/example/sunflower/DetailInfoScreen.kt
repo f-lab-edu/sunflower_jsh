@@ -19,8 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -38,7 +36,6 @@ import com.example.sunflower.data.PlantViewData
 fun DetailInfoScreen(
     plantViewData: PlantViewData,
     onClickAddButton: () -> Unit,
-    checkIsPlantPlanted: () -> IsPlanted,
 ) {
     Box(
         modifier = Modifier
@@ -50,7 +47,6 @@ fun DetailInfoScreen(
         DetailContentView(
             onClickAddButton = onClickAddButton,
             plantViewData = plantViewData,
-            checkIsPlantPlanted = checkIsPlantPlanted,
         )
         FloatingActionButton(
             modifier = Modifier
@@ -91,9 +87,7 @@ fun DetailInfoScreen(
 fun DetailContentView(
     plantViewData: PlantViewData,
     onClickAddButton: () -> Unit,
-    checkIsPlantPlanted: () -> IsPlanted,
 ) {
-    val isPlantedState = remember { mutableStateOf(plantViewData.isPlanted) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +95,7 @@ fun DetailContentView(
     ) {
         ConstraintLayout {
             val (
-                image, addBtn, text,
+                image, addButton, text,
             ) = createRefs()
             Image(
                 modifier = Modifier
@@ -116,20 +110,17 @@ fun DetailContentView(
                 ),
                 contentDescription = null,
             )
-            if (!isPlantedState.value) {
+            if (!plantViewData.isPlanted) {
                 FloatingActionButton(
                     modifier = Modifier
                         .padding(8.dp)
-                        .constrainAs(addBtn) {
+                        .constrainAs(addButton) {
                             top.linkTo(image.bottom)
                             bottom.linkTo(text.top)
                             end.linkTo(parent.end)
                         },
-                    onClick = {
-                        onClickAddButton()
-                        val isPlanted = checkIsPlantPlanted()
-                        isPlantedState.value = isPlanted
-                    },
+                    onClick =
+                    { onClickAddButton.invoke() },
                     shape = RoundedCornerShape(
                         topStart = 0.dp,
                         topEnd = 28.dp,
@@ -180,7 +171,7 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = stringResource(R.string.wateringNeeds),
+            text = stringResource(R.string.watering_needs),
             modifier = Modifier
                 .align(CenterHorizontally),
             style = MaterialTheme.typography.bodyLarge,

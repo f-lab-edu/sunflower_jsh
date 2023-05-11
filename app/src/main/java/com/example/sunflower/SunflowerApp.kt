@@ -1,18 +1,24 @@
 package com.example.sunflower
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.sunflower.data.PlantViewData
+import com.example.sunflower.result.ResultOfFindingPlantIndex
+import com.example.sunflower.result.ResultOfFunction
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import org.jetbrains.annotations.Nullable
+
+internal const val MAIN_SCREEN = "mainScreen"
+internal const val DETAIL_INFO_SCREEN = "detailInfoScreen"
+internal const val PLANT_NAME = "plantName"
 
 @ExperimentalMaterial3Api
 @Composable
@@ -38,40 +44,46 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "mainScreen",
+        startDestination = MAIN_SCREEN,
     ) {
-        val navigateToDetail: (String) -> Unit =
-            { plantName -> navController.navigate("detailInfoScreen/$plantName") }
-        val addPlantToGarden: (String, Context) -> Unit =
-            { plantName, context -> plantListViewModel.addPlantToGarden(plantName, context) }
-        val checkIsPlantInGarden: (PlantName, Context) -> IsPlanted = { plantName, context ->
-            plantListViewModel.checkIsPlantPlanted(plantName, context)
-        }
+        val navigateToDetail: (plantName: String) -> Unit =
+            { plantName -> navController.navigate("$DETAIL_INFO_SCREEN/$plantName") }
 
-        @Nullable
-        val findSelectedPlant: (PlantName) -> PlantViewData? = { plantName ->
-            plantListViewModel.findSelectedPlantViewData(plantName)
+        fun addPlantToGarden(plantName: String) {
+            when (plantListViewModel.addPlantToGarden(plantName)) {
+                ResultOfFunction.Success -> Toast.makeText(
+                    context,
+                    context.getText(R.string.add_toast_message),
+                    Toast.LENGTH_SHORT,
+                ).show()
+                ResultOfFunction.Failure -> Toast.makeText(
+                    context,
+                    context.getText(R.string.error_message),
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
         }
 
         composable(
-            "mainScreen",
+            MAIN_SCREEN,
         ) {
-            MainScreen(onClickPlantCard = navigateToDetail, plantListViewModel = plantListViewModel)
+            MainScreen(plantListViewModel, navigateToDetail)
         }
         composable(
-            "detailInfoScreen/{plantName}",
+            "$DETAIL_INFO_SCREEN/{$PLANT_NAME}",
             arguments = listOf(
-                navArgument("plantName") { type = NavType.StringType },
+                navArgument(PLANT_NAME) { type = NavType.StringType },
             ),
         ) { backStackEntry ->
-            backStackEntry.arguments?.let { bundle ->
-                findSelectedPlant(bundle.getString("plantName").toString())?.let { plantViewData ->
-                    DetailInfoScreen(
-                        onClickAddButton = { addPlantToGarden(plantViewData.plantName, context) },
-                        plantViewData = plantViewData,
-                        checkIsPlantPlanted = { checkIsPlantInGarden(plantViewData.plantName, context) },
-                    )
-                }
+            val bundle = backStackEntry.arguments ?: return@composable
+            val resultOfFindingPlantIndex =
+                plantListViewModel.findSelectedPlantIndex(bundle.getString(PLANT_NAME).toString())
+            val plantIndex = when (resultOfFindingPlantIndex) {
+                is ResultOfFindingPlantIndex.Success -> resultOfFindingPlantIndex.index
+                is ResultOfFindingPlantIndex.Failure -> return@composable
+            }
+            DetailInfoScreen(plantListViewModel.plantListState.collectAsState().value[plantIndex]) {
+                addPlantToGarden(bundle.getString(PLANT_NAME).toString())
             }
         }
     }

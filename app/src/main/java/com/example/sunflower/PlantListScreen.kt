@@ -22,7 +22,7 @@ import com.example.sunflower.garden.PlantImage
 @Composable
 fun PlantListScreen(
     plantViewDataList: List<PlantViewData>,
-    onClickPlantCard: (PlantName) -> Unit,
+    onClickPlantCard: (plantName: String) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -39,9 +39,9 @@ fun PlantListScreen(
         items(
             count = plantViewDataList.size,
             itemContent = { index ->
-                PlantCardView(onClickCard = {
+                PlantCardView(plantViewDataList[index]) {
                     onClickPlantCard(plantViewDataList[index].plantName)
-                }, plantViewData = plantViewDataList[index])
+                }
             },
         )
     }
