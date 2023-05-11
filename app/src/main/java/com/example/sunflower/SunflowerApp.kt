@@ -16,9 +16,9 @@ import com.example.sunflower.result.ResultOfFindingPlantIndex
 import com.example.sunflower.result.ResultOfFunction
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-internal const val MAIN_SCREEN = "mainScreen"
-internal const val DETAIL_INFO_SCREEN = "detailInfoScreen"
-internal const val PLANT_NAME = "plantName"
+private const val MAIN_SCREEN = "mainScreen"
+private const val DETAIL_INFO_SCREEN = "detailInfoScreen"
+private const val PLANT_NAME = "plantName"
 
 @ExperimentalMaterial3Api
 @Composable

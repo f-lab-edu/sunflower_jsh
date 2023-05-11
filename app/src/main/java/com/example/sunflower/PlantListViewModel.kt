@@ -7,8 +7,8 @@ import com.example.sunflower.result.ResultOfFindingPlantIndex
 import com.example.sunflower.result.ResultOfFunction
 import kotlinx.coroutines.flow.StateFlow
 
-internal const val PLANT_LIST = "plantList"
-internal const val GARDEN_LIST = "gardenList"
+private const val PLANT_LIST = "plantList"
+private const val GARDEN_LIST = "gardenList"
 
 class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     val plantListState: StateFlow<List<PlantViewData>> = savedStateHandle.getStateFlow(
