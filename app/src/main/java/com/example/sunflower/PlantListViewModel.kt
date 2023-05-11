@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal const val PLANT_LIST = "plantList"
 internal const val GARDEN_LIST = "gardenList"
+
 class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     val plantListState: StateFlow<List<PlantViewData>> = savedStateHandle.getStateFlow(
         PLANT_LIST,
@@ -24,11 +25,18 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
         ),
     )
 
-    val gardenListState: StateFlow<List<PlantViewData>> = savedStateHandle.getStateFlow(GARDEN_LIST, emptyList())
+    val gardenListState: StateFlow<List<PlantViewData>> = savedStateHandle.getStateFlow(
+        GARDEN_LIST,
+        emptyList(),
+    )
 
     fun findSelectedPlantIndex(plantName: String): ResultOfFindingPlantIndex {
         for (index in plantListState.value.indices) {
-            if (plantListState.value[index].plantName == plantName) return ResultOfFindingPlantIndex.Success(index)
+            if (plantListState.value[index].plantName == plantName) {
+                return ResultOfFindingPlantIndex.Success(
+                    index,
+                )
+            }
         }
         return ResultOfFindingPlantIndex.Failure
     }

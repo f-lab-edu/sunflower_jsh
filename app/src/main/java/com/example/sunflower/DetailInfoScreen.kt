@@ -119,8 +119,7 @@ fun DetailContentView(
                             bottom.linkTo(text.top)
                             end.linkTo(parent.end)
                         },
-                    onClick =
-                    { onClickAddButton.invoke() },
+                    onClick = onClickAddButton,
                     shape = RoundedCornerShape(
                         topStart = 0.dp,
                         topEnd = 28.dp,

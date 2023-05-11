@@ -14,7 +14,10 @@ import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
 @Composable
-fun MyGardenScreen(plantViewDataList: List<PlantViewData>, onClickPlantCard: (plantName: String) -> Unit) {
+fun MyGardenScreen(
+    plantViewDataList: List<PlantViewData>,
+    onClickPlantCard: (plantName: String) -> Unit,
+) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
