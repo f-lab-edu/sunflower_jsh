@@ -5,15 +5,15 @@ import android.widget.Toast
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.sunflower.result.ResultOfFindingPlantIndex
-import com.example.sunflower.result.ResultOfFunction
+import com.example.sunflower.data.PlantViewData
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private const val MAIN_SCREEN = "mainScreen"
@@ -22,14 +22,13 @@ private const val PLANT_NAME = "plantName"
 
 @ExperimentalMaterial3Api
 @Composable
-fun SunflowerApp(context: Context, plantListViewModel: PlantListViewModel) {
+fun SunflowerApp(plantListViewModel: PlantListViewModel) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         color = MaterialTheme.colorScheme.primaryContainer,
     )
     val navController = rememberNavController()
     AppNavHost(
-        context,
         plantListViewModel = plantListViewModel,
         navController = navController,
     )
@@ -38,7 +37,6 @@ fun SunflowerApp(context: Context, plantListViewModel: PlantListViewModel) {
 @ExperimentalMaterial3Api
 @Composable
 fun AppNavHost(
-    context: Context,
     plantListViewModel: PlantListViewModel,
     navController: NavHostController,
 ) {
@@ -46,45 +44,49 @@ fun AppNavHost(
         navController = navController,
         startDestination = MAIN_SCREEN,
     ) {
-        val navigateToDetail: (plantName: String) -> Unit =
-            { plantName -> navController.navigate("$DETAIL_INFO_SCREEN/$plantName") }
-
-        fun addPlantToGarden(plantName: String) {
-            when (plantListViewModel.addPlantToGarden(plantName)) {
-                ResultOfFunction.Success -> Toast.makeText(
-                    context,
-                    context.getText(R.string.add_toast_message),
-                    Toast.LENGTH_SHORT,
-                ).show()
-                ResultOfFunction.Failure -> Toast.makeText(
-                    context,
-                    context.getText(R.string.error_message),
-                    Toast.LENGTH_SHORT,
-                ).show()
-            }
-        }
-
         composable(
             MAIN_SCREEN,
         ) {
-            MainScreen(plantListViewModel, navigateToDetail)
+            MainScreen(plantListViewModel, navController::goToDetail)
         }
         composable(
             "$DETAIL_INFO_SCREEN/{$PLANT_NAME}",
             arguments = listOf(
                 navArgument(PLANT_NAME) { type = NavType.StringType },
             ),
-        ) { backStackEntry ->
-            val bundle = backStackEntry.arguments ?: return@composable
-            val resultOfFindingPlantIndex =
-                plantListViewModel.findSelectedPlantIndex(bundle.getString(PLANT_NAME).toString())
-            val plantIndex = when (resultOfFindingPlantIndex) {
-                is ResultOfFindingPlantIndex.Success -> resultOfFindingPlantIndex.index
-                is ResultOfFindingPlantIndex.Failure -> return@composable
-            }
-            DetailInfoScreen(plantListViewModel.plantListState.collectAsState().value[plantIndex]) {
-                addPlantToGarden(bundle.getString(PLANT_NAME).toString())
-            }
-        }
+            content = { backStackEntry ->
+                val plantName = backStackEntry.arguments?.getString(PLANT_NAME).orEmpty()
+                val foundPlant = plantListViewModel.findPlantByName(plantName) ?: return@composable
+                val plantViewData =
+                    plantListViewModel.plantAsState(plant = foundPlant) ?: return@composable
+                val context = LocalContext.current
+                DetailInfoScreen(foundPlant) {
+                    attemptToPlant(context, plantListViewModel, plantViewData)
+                }
+            },
+        )
+    }
+}
+
+private fun NavController.goToDetail(plantName: String) {
+    navigate("$DETAIL_INFO_SCREEN/$plantName")
+}
+
+private fun attemptToPlant(
+    context: Context,
+    plantListViewModel: PlantListViewModel,
+    plant: PlantViewData,
+) {
+    when (plantListViewModel.plantToGarden(plant)) {
+        PlantListViewModel.PlantToGardenResult.Success -> Toast.makeText(
+            context,
+            context.getText(R.string.add_toast_message),
+            Toast.LENGTH_SHORT,
+        ).show()
+        PlantListViewModel.PlantToGardenResult.PlantNotFound -> Toast.makeText(
+            context,
+            context.getText(R.string.error_message),
+            Toast.LENGTH_SHORT,
+        ).show()
     }
 }

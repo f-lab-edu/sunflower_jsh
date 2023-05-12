@@ -1,10 +1,10 @@
 package com.example.sunflower
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.sunflower.data.PlantViewData
-import com.example.sunflower.result.ResultOfFindingPlantIndex
-import com.example.sunflower.result.ResultOfFunction
 import kotlinx.coroutines.flow.StateFlow
 
 private const val PLANT_LIST = "plantList"
@@ -30,29 +30,46 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
         emptyList(),
     )
 
-    fun findSelectedPlantIndex(plantName: String): ResultOfFindingPlantIndex {
-        for (index in plantListState.value.indices) {
-            if (plantListState.value[index].plantName == plantName) {
-                return ResultOfFindingPlantIndex.Success(
-                    index,
-                )
-            }
-        }
-        return ResultOfFindingPlantIndex.Failure
+    fun findPlantByName(plantName: String): PlantViewData? =
+        plantList.find { plantViewData -> plantViewData.plantName == plantName }
+
+    @Composable
+    fun plantAsState(plant: PlantViewData): PlantViewData? {
+        val index = plantList.indexOfFirst { it.plantName == plant.plantName }
+        if (index < 0) return null
+        return plantListState.collectAsState().value[index]
     }
 
-    fun addPlantToGarden(selectedPlantName: String): ResultOfFunction {
-        val currentPlantList = plantListState.value
-        val newPlantList = currentPlantList.toMutableList()
-        for (index in currentPlantList.indices) {
-            if (currentPlantList[index].plantName == selectedPlantName) {
-                val targetPlant = currentPlantList[index].copy(isPlanted = true)
-                newPlantList[index] = targetPlant
-                savedStateHandle[PLANT_LIST] = newPlantList
-                savedStateHandle[GARDEN_LIST] = gardenListState.value + targetPlant
-                return ResultOfFunction.Success
-            }
-        }
-        return ResultOfFunction.Failure
+    enum class PlantToGardenResult {
+        Success,
+        PlantNotFound,
     }
+    fun plantToGarden(plant: PlantViewData): PlantToGardenResult {
+        val currentPlantList = plantList
+        val index = currentPlantList.indexOfFirst { it.plantName == plant.plantName }
+        if (index < 0) {
+            return PlantToGardenResult.PlantNotFound
+        }
+
+        val plantedClone = currentPlantList[index].copy(isPlanted = true)
+        val newPlantList = currentPlantList.toMutableList().apply {
+            this[index] = plantedClone
+        }
+
+        plantList = newPlantList
+        gardenList = gardenList + plantedClone
+        return PlantToGardenResult.Success
+    }
+
+    private var plantList: List<PlantViewData>
+        get() = savedStateHandle.get<List<PlantViewData>>(PLANT_LIST).orEmpty()
+        set(value) {
+            savedStateHandle[PLANT_LIST] = value
+        }
+
+    private var gardenList: List<PlantViewData>
+        get() = savedStateHandle.get<List<PlantViewData>>(GARDEN_LIST).orEmpty()
+        set(value) {
+            savedStateHandle[GARDEN_LIST] = value
+        }
 }

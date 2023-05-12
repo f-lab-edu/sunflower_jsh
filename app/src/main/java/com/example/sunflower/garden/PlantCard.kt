@@ -27,57 +27,61 @@ fun PlantCard(plantViewData: PlantViewData, onCardClick: () -> Unit) {
             vertical = 8.dp,
             horizontal = 8.dp,
         ),
+        content = { PlantCardContent(plantViewData) },
+    )
+}
+
+@Composable
+fun PlantCardContent(plantViewData: PlantViewData) {
+    Column(
+        modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
     ) {
-        Column(
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
-        ) {
-            PlantImage(plantViewData.imageResId)
-            Text(
-                text = plantViewData.plantName,
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(vertical = 12.dp),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            Text(
-                text = stringResource(R.string.planted),
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-            Text(
-                text = plantViewData.plantedDate,
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(bottom = 12.dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            Text(
-                text = stringResource(R.string.last_watered),
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-            Text(
-                text = plantViewData.lastWateredDate,
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            Text(
-                text = "water in ${plantViewData.wateringCycle} days",
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(bottom = 12.dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
+        PlantImage(plantViewData.imageResId)
+        Text(
+            text = plantViewData.plantName,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(vertical = 12.dp),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        Text(
+            text = stringResource(R.string.planted),
+            modifier = Modifier
+                .align(CenterHorizontally),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        Text(
+            text = plantViewData.plantedDate,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(bottom = 12.dp),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        Text(
+            text = stringResource(R.string.last_watered),
+            modifier = Modifier
+                .align(CenterHorizontally),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        Text(
+            text = plantViewData.lastWateredDate,
+            modifier = Modifier
+                .align(CenterHorizontally),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        Text(
+            text = "water in ${plantViewData.wateringCycle} days",
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(bottom = 12.dp),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     }
 }
 
