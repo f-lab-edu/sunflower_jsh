@@ -70,7 +70,7 @@ fun MainScreen(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
-fun TopBar(pagerState: PagerState) {
+private fun TopBar(pagerState: PagerState) {
     CenterAlignedTopAppBar(
         modifier = Modifier.fillMaxWidth(),
         colors = centerAlignedTopAppBarColors(
@@ -99,7 +99,7 @@ fun TopBar(pagerState: PagerState) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabMenu(pagerState: PagerState, coroutineScope: CoroutineScope) {
+private fun TabMenu(pagerState: PagerState, coroutineScope: CoroutineScope) {
     TabRow(
         selectedTabIndex = pagerState.currentPage,
         backgroundColor = MaterialTheme.colorScheme.primary,

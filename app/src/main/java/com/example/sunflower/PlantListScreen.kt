@@ -42,7 +42,7 @@ fun PlantListScreen(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun LazyGridScope.plantListScreenContent(
+private fun LazyGridScope.plantListScreenContent(
     plantViewDataList: List<PlantViewData>,
     onClickPlantCard: (plantName: String) -> Unit,
 ) {
@@ -53,7 +53,7 @@ fun LazyGridScope.plantListScreenContent(
 
 @ExperimentalMaterial3Api
 @Composable
-fun PlantCardView(plantViewData: PlantViewData, onClickCard: () -> Unit) {
+private fun PlantCardView(plantViewData: PlantViewData, onClickCard: () -> Unit) {
     Card(
         shape = PreDefinedCornerBorders.customCard,
         onClick = onClickCard,
@@ -66,7 +66,7 @@ fun PlantCardView(plantViewData: PlantViewData, onClickCard: () -> Unit) {
 }
 
 @Composable
-fun PlantCardViewContent(plantViewData: PlantViewData) {
+private fun PlantCardViewContent(plantViewData: PlantViewData) {
     Column(
         modifier = Modifier.background(
             MaterialTheme.colorScheme.primaryContainer,

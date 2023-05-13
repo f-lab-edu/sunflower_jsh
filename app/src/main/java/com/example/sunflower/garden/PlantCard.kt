@@ -32,7 +32,7 @@ fun PlantCard(plantViewData: PlantViewData, onCardClick: () -> Unit) {
 }
 
 @Composable
-fun PlantCardContent(plantViewData: PlantViewData) {
+private fun PlantCardContent(plantViewData: PlantViewData) {
     Column(
         modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
     ) {

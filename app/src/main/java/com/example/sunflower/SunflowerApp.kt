@@ -36,7 +36,7 @@ fun SunflowerApp(plantListViewModel: PlantListViewModel) {
 
 @ExperimentalMaterial3Api
 @Composable
-fun AppNavHost(
+private fun AppNavHost(
     plantListViewModel: PlantListViewModel,
     navController: NavHostController,
 ) {

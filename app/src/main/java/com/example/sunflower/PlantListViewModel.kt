@@ -33,6 +33,9 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
     fun findPlantByName(plantName: String): PlantViewData? =
         plantList.find { plantViewData -> plantViewData.plantName == plantName }
 
+    /**
+     * 찾는 plant와 이름이 같은 첫 plantViewData index반환
+     * 이름이 같은 plantViewData가 없을 경우 null을 반환**/
     @Composable
     fun plantAsState(plant: PlantViewData): PlantViewData? {
         val index = plantList.indexOfFirst { it.plantName == plant.plantName }
@@ -44,6 +47,7 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
         Success,
         PlantNotFound,
     }
+
     fun plantToGarden(plant: PlantViewData): PlantToGardenResult {
         val currentPlantList = plantList
         val index = currentPlantList.indexOfFirst { it.plantName == plant.plantName }
