@@ -1,6 +1,5 @@
 package com.example.sunflower
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
@@ -70,21 +69,16 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
                         }
                     }
                 }.awaitAll()
-
-            responses.forEachIndexed { index, response ->
-                when (response) {
-                    is ApiResult.Success -> {
-                        val imageUrl = response.value.results[0].urls.thumb
-                        val initializedPlant = plantList[index].copy(imageUrl = imageUrl)
-                        val newPlantList = plantList.toMutableList().apply {
-                            this[index] = initializedPlant
-                        }
-                        plantList = newPlantList
-                    }
-                    is ApiResult.Failure -> Log.e(TAG, response.message.toString())
-                }
-            }
+            CheckPlantImageResponses(responses, this@PlantListViewModel::setPlantImage).invoke()
         }
+    }
+
+    private fun setPlantImage(index: Int, imageUrl: String) {
+        val initializedPlant = plantList[index].copy(imageUrl = imageUrl)
+        val newPlantList = plantList.toMutableList().apply {
+            this[index] = initializedPlant
+        }
+        plantList = newPlantList
     }
 
     fun findPlantByName(plantName: String): PlantViewData? =
@@ -120,9 +114,5 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
         plantList = newPlantList
         gardenList = gardenList + plantedClone
         return PlantToGardenResult.Success
-    }
-
-    private companion object {
-        const val TAG = "Unsplash API"
     }
 }
