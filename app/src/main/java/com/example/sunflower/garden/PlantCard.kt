@@ -1,7 +1,5 @@
 package com.example.sunflower.garden
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,9 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.sunflower.R
 import com.example.sunflower.data.PlantViewData
 
@@ -36,7 +34,10 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
     Column(
         modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
     ) {
-        PlantImage(plantViewData.imageResId)
+        AsyncImage(
+            model = plantViewData.imageUrl,
+            contentDescription = null,
+        )
         Text(
             text = plantViewData.plantName,
             modifier = Modifier
@@ -47,8 +48,7 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
         )
         Text(
             text = stringResource(R.string.planted),
-            modifier = Modifier
-                .align(CenterHorizontally),
+            modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
@@ -62,15 +62,13 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
         )
         Text(
             text = stringResource(R.string.last_watered),
-            modifier = Modifier
-                .align(CenterHorizontally),
+            modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Text(
             text = plantViewData.lastWateredDate,
-            modifier = Modifier
-                .align(CenterHorizontally),
+            modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )
@@ -83,16 +81,4 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
             color = MaterialTheme.colorScheme.onBackground,
         )
     }
-}
-
-@Composable
-fun PlantImage(
-    @DrawableRes imageResId: Int,
-) {
-    Image(
-        painter = painterResource(
-            id = imageResId,
-        ),
-        contentDescription = null,
-    )
 }

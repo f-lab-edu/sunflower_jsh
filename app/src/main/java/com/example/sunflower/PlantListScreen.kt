@@ -17,8 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.sunflower.data.PlantViewData
-import com.example.sunflower.garden.PlantImage
 
 @ExperimentalMaterial3Api
 @Composable
@@ -72,10 +72,10 @@ private fun PlantCardViewContent(plantViewData: PlantViewData) {
             MaterialTheme.colorScheme.primaryContainer,
         ),
     ) {
-        PlantImage(
-            plantViewData.imageResId,
+        AsyncImage(
+            model = plantViewData.imageUrl,
+            contentDescription = null,
         )
-
         Text(
             text = plantViewData.plantName,
             modifier = Modifier
