@@ -5,6 +5,9 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'com.example.sunflower'
     compileSdk 33
@@ -17,7 +20,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "UNSPLASH_API_APP_KEY", ""
+        buildConfigField "String", "UNSPLASH_API_KEY", properties["UNSPLASH_API_KEY"]
     }
 
     buildTypes {

@@ -60,7 +60,7 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
                             ApiResult.Success(
                                 UnsplashService.unsplashService
                                     .searchPhotos(
-                                        BuildConfig.UNSPLASH_API_APP_KEY,
+                                        BuildConfig.UNSPLASH_API_KEY,
                                         plant.plantName,
                                     ),
                             )
