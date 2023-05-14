@@ -27,15 +27,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.sunflower.data.MockUpDataList
+import com.example.sunflower.data.PlantViewData
 
 @ExperimentalMaterial3Api
-@Preview
 @Composable
-fun DetailInfoScreen() {
+fun DetailInfoScreen(
+    plantViewData: PlantViewData,
+    onClickAddButton: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +44,10 @@ fun DetailInfoScreen() {
                 MaterialTheme.colorScheme.primaryContainer,
             ),
     ) {
-        DetailContentView()
+        DetailContentView(
+            onClickAddButton = onClickAddButton,
+            plantViewData = plantViewData,
+        )
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -80,7 +84,10 @@ fun DetailInfoScreen() {
 }
 
 @Composable
-fun DetailContentView() {
+fun DetailContentView(
+    plantViewData: PlantViewData,
+    onClickAddButton: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +95,7 @@ fun DetailContentView() {
     ) {
         ConstraintLayout {
             val (
-                image, addBtn, text,
+                image, addButton, text,
             ) = createRefs()
             Image(
                 modifier = Modifier
@@ -99,38 +106,41 @@ fun DetailContentView() {
                     },
                 contentScale = ContentScale.Crop,
                 painter = painterResource(
-                    id = MockUpDataList.plantList[0].image,
+                    id = plantViewData.imageResId,
                 ),
                 contentDescription = null,
             )
-            FloatingActionButton(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .constrainAs(addBtn) {
-                        top.linkTo(image.bottom)
-                        bottom.linkTo(text.top)
-                        end.linkTo(parent.end)
+            if (!plantViewData.isPlanted) {
+                FloatingActionButton(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .constrainAs(addButton) {
+                            top.linkTo(image.bottom)
+                            bottom.linkTo(text.top)
+                            end.linkTo(parent.end)
+                        },
+                    onClick = onClickAddButton,
+                    shape = RoundedCornerShape(
+                        topStart = 0.dp,
+                        topEnd = 28.dp,
+                        bottomStart = 28.dp,
+                        bottomEnd = 0.dp,
+                    ),
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    content = {
+                        Icon(
+                            imageVector = ImageVector
+                                .vectorResource(
+                                    id = R.drawable.ic_add,
+                                ),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondary,
+                        )
                     },
-                onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(
-                    topStart = 0.dp,
-                    topEnd = 28.dp,
-                    bottomStart = 28.dp,
-                    bottomEnd = 0.dp,
-                ),
-                containerColor = MaterialTheme.colorScheme.secondary,
-                content = {
-                    Icon(
-                        imageVector = ImageVector
-                            .vectorResource(
-                                id = R.drawable.ic_add,
-                            ),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondary,
-                    )
-                },
-            )
+                )
+            }
             DetailTextView(
+                plantViewData,
                 Modifier
                     .fillMaxSize()
                     .padding(
@@ -145,12 +155,12 @@ fun DetailContentView() {
 }
 
 @Composable
-fun DetailTextView(modifier: Modifier) {
+fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
     Column(
         modifier = modifier,
     ) {
         Text(
-            text = "이름",
+            text = plantViewData.plantName,
             modifier = Modifier
                 .align(CenterHorizontally)
                 .padding(
@@ -160,14 +170,14 @@ fun DetailTextView(modifier: Modifier) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = stringResource(R.string.wateringNeeds),
+            text = stringResource(R.string.watering_needs),
             modifier = Modifier
                 .align(CenterHorizontally),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Text(
-            text = "water 21 days",
+            text = "water ${plantViewData.wateringCycle} days",
             modifier = Modifier
                 .align(CenterHorizontally)
                 .padding(bottom = 12.dp),
@@ -175,12 +185,12 @@ fun DetailTextView(modifier: Modifier) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = "설명\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+            text = plantViewData.explanation,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = "링크",
+            text = plantViewData.sourceLink,
             modifier = Modifier.padding(
                 bottom = 64.dp,
             ),
