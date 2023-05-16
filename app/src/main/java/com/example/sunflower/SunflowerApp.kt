@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -56,15 +57,23 @@ private fun AppNavHost(
             ),
             content = { backStackEntry ->
                 val plantName = backStackEntry.arguments?.getString(PLANT_NAME).orEmpty()
-                val foundPlant = plantListViewModel.findPlantByName(plantName) ?: return@composable
-                val plantViewData =
-                    plantListViewModel.plantAsState(plant = foundPlant) ?: return@composable
-                val context = LocalContext.current
-                DetailInfoScreen(foundPlant) {
-                    attemptToPlant(context, plantListViewModel, plantViewData)
-                }
+                DetailInfoScreenInner(plantListViewModel, plantName)
             },
         )
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+private fun DetailInfoScreenInner(viewModel: PlantListViewModel, plantName: String) {
+    val foundPlantState =
+        viewModel.findPlantByNameAsFlow(plantName).collectAsState(initial = null)
+    val foundPlant = foundPlantState.value
+    if (foundPlant != null) {
+        val context = LocalContext.current
+        DetailInfoScreen(foundPlant) {
+            attemptToPlant(context, viewModel, foundPlant)
+        }
     }
 }
 
