@@ -24,6 +24,13 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
+      - name: Access UNSPLASH_API_KEY
+        run: |
+            echo UNSPLASH_API_KEY=\"$UNSPLASH_API_KEY\" > local.properties
+        shell: bash
+        env:
+            API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
+
       - name: Caching
         uses: actions/cache@v3
         with:
