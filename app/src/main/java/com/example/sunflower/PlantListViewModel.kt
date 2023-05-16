@@ -83,7 +83,8 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
 
     fun findPlantByNameAsFlow(plantName: String): Flow<PlantViewData?> =
         plantListState.map { it.findByName(plantName) }
-    fun List<PlantViewData>.findByName(plantName: String): PlantViewData? =
+
+    private fun List<PlantViewData>.findByName(plantName: String): PlantViewData? =
         find { plantViewData -> plantViewData.plantName == plantName }
 
     enum class PlantToGardenResult {
