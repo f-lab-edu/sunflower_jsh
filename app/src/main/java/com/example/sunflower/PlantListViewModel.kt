@@ -1,7 +1,5 @@
 package com.example.sunflower
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -87,11 +85,13 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
     /**
      * 찾는 plant와 이름이 같은 첫 plantViewData index반환
      * 이름이 같은 plantViewData가 없을 경우 null을 반환**/
-    @Composable
-    fun plantAsState(plant: PlantViewData): PlantViewData? {
+    fun findPlantIndex(plant: PlantViewData): Int? {
         val index = plantList.indexOfFirst { it.plantName == plant.plantName }
-        if (index < 0) return null
-        return plantListState.collectAsState().value[index]
+        return if (index < 0) {
+            null
+        } else {
+            index
+        }
     }
 
     enum class PlantToGardenResult {
