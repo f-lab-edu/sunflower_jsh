@@ -1,7 +1,5 @@
 package com.example.sunflower
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +8,9 @@ import com.example.sunflower.network.ApiResult
 import com.example.sunflower.network.UnsplashService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 private const val PLANT_LIST = "plantList"
@@ -81,18 +81,10 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
         plantList = newPlantList
     }
 
-    fun findPlantByName(plantName: String): PlantViewData? =
-        plantList.find { plantViewData -> plantViewData.plantName == plantName }
-
-    /**
-     * 찾는 plant와 이름이 같은 첫 plantViewData index반환
-     * 이름이 같은 plantViewData가 없을 경우 null을 반환**/
-    @Composable
-    fun plantAsState(plant: PlantViewData): PlantViewData? {
-        val index = plantList.indexOfFirst { it.plantName == plant.plantName }
-        if (index < 0) return null
-        return plantListState.collectAsState().value[index]
-    }
+    fun findPlantByNameAsFlow(plantName: String): Flow<PlantViewData?> =
+        plantListState.map { it.findByName(plantName) }
+    fun List<PlantViewData>.findByName(plantName: String): PlantViewData? =
+        find { plantViewData -> plantViewData.plantName == plantName }
 
     enum class PlantToGardenResult {
         Success,
