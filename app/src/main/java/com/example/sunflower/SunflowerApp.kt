@@ -57,21 +57,24 @@ private fun AppNavHost(
             ),
             content = { backStackEntry ->
                 val plantName = backStackEntry.arguments?.getString(PLANT_NAME).orEmpty()
-                val foundPlant = plantListViewModel.findPlantByName(plantName) ?: return@composable
-                val plantIndex = plantListViewModel.findPlantIndex(foundPlant) ?: return@composable
-                val plantViewData = plantAsState(plantListViewModel, plantIndex)
-                val context = LocalContext.current
-                DetailInfoScreen(foundPlant) {
-                    attemptToPlant(context, plantListViewModel, plantViewData)
-                }
+                DetailInfoScreenInner(plantListViewModel, plantName)
             },
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun plantAsState(plantListViewModel: PlantListViewModel, index: Int): PlantViewData {
-    return plantListViewModel.plantListState.collectAsState().value[index]
+private fun DetailInfoScreenInner(viewModel: PlantListViewModel, plantName: String) {
+    val foundPlantState =
+        viewModel.findPlantByNameAsFlow(plantName).collectAsState(initial = null)
+    val foundPlant = foundPlantState.value
+    if (foundPlant != null) {
+        val context = LocalContext.current
+        DetailInfoScreen(foundPlant) {
+            attemptToPlant(context, viewModel, foundPlant)
+        }
+    }
 }
 
 private fun NavController.goToDetail(plantName: String) {
@@ -89,6 +92,7 @@ private fun attemptToPlant(
             context.getText(R.string.add_toast_message),
             Toast.LENGTH_SHORT,
         ).show()
+
         PlantListViewModel.PlantToGardenResult.PlantNotFound -> Toast.makeText(
             context,
             context.getText(R.string.error_message),
