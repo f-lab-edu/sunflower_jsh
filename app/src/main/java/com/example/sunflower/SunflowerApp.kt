@@ -57,7 +57,7 @@ private fun AppNavHost(
             ),
             content = { backStackEntry ->
                 val plantName = backStackEntry.arguments?.getString(PLANT_NAME).orEmpty()
-                DetailInfoScreenInner(plantListViewModel, plantName)
+                DetailInfoScreenInner(plantListViewModel, plantName) { navController.navigateUp() }
             },
         )
     }
@@ -65,13 +65,17 @@ private fun AppNavHost(
 
 @ExperimentalMaterial3Api
 @Composable
-private fun DetailInfoScreenInner(viewModel: PlantListViewModel, plantName: String) {
+private fun DetailInfoScreenInner(
+    viewModel: PlantListViewModel,
+    plantName: String,
+    onClickBackButton: () -> Unit
+) {
     val foundPlantState =
         viewModel.findPlantByNameAsFlow(plantName).collectAsState(initial = null)
     val foundPlant = foundPlantState.value
     if (foundPlant != null) {
         val context = LocalContext.current
-        DetailInfoScreen(foundPlant) {
+        DetailInfoScreen(foundPlant, onClickBackButton) {
             attemptToPlant(context, viewModel, foundPlant)
         }
     }

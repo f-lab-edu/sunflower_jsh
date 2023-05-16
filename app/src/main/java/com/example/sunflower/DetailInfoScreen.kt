@@ -1,5 +1,7 @@
 package com.example.sunflower
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -34,8 +37,11 @@ import com.example.sunflower.data.PlantViewData
 @Composable
 fun DetailInfoScreen(
     plantViewData: PlantViewData,
+    onclickBackButton: () -> Unit,
     onClickAddButton: () -> Unit,
 ) {
+    val context = LocalContext.current
+    val onClickShareButton = onClickShare(plantViewData, context)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +58,7 @@ fun DetailInfoScreen(
                 .align(Alignment.TopStart)
                 .padding(8.dp)
                 .size(48.dp),
-            onClick = { /*TODO*/ },
+            onClick = onclickBackButton,
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.secondary,
             content = {
@@ -68,7 +74,7 @@ fun DetailInfoScreen(
                 .align(Alignment.TopEnd)
                 .padding(8.dp)
                 .size(48.dp),
-            onClick = { /*TODO*/ },
+            onClick = onClickShareButton,
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.secondary,
             content = {
@@ -193,4 +199,17 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
             ),
         )
     }
+}
+
+fun onClickShare(plantViewData: PlantViewData, context: Context): () -> Unit {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT,
+            "Check out the ${plantViewData.plantName} in the Android Sunflower app",
+        )
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    return { context.startActivity(shareIntent) }
 }
