@@ -22,11 +22,11 @@ interface UnsplashService {
             level = HttpLoggingInterceptor.Level.BASIC
         }
 
-        private val client = OkHttpClient.Builder()
+        val client = OkHttpClient.Builder()
             .addInterceptor(logger)
             .build()
 
-        private val gSonConverter = GsonConverterFactory.create()
+        val gSonConverter: GsonConverterFactory = GsonConverterFactory.create()
 
         val unsplashService: UnsplashService = Retrofit.Builder()
             .baseUrl(BASE_URL)

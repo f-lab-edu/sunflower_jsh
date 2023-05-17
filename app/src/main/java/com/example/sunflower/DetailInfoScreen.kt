@@ -190,7 +190,7 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = plantViewData.explanation,
+            text = plantViewData.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
         )

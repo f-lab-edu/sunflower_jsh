@@ -4,8 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sunflower.data.PlantViewData
+import com.example.sunflower.data.UnsplashSearchResponse
+import com.example.sunflower.data.WikipediaResponse
 import com.example.sunflower.network.ApiResult
 import com.example.sunflower.network.UnsplashService
+import com.example.sunflower.network.WikipediaService
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
@@ -43,39 +47,67 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
 
     init {
         plantList = listOf(
-            PlantViewData("sunflower", "sunflower", "3", "설명", "심은날짜", false, "출처"),
-            PlantViewData("rose", "rose", "4", "설명", "심은날짜", false, "출처"),
-            PlantViewData("hydrangea", "hydrangea", "5", "설명", "심은날짜", false, "출처"),
-            PlantViewData("gerbera", "gerbera", "6", "설명", "심은날짜", false, "출처"),
+            PlantViewData("Sunflower", imageUrl = "", "3"),
+            PlantViewData("Rose", imageUrl = "", "4"),
+            PlantViewData("Hydrangea", imageUrl = "", "5"),
+            PlantViewData("Gerbera", imageUrl = "", "6"),
         )
 
-        callPlantImages()
+        callPlantData()
     }
 
-    private fun callPlantImages() {
+    private fun callPlantData() {
         viewModelScope.launch {
-            val responses = plantList
-                .map { plant ->
+            val unsplashResponsesList = mutableListOf<Deferred<ApiResult<UnsplashSearchResponse>>>()
+            val wikipediaResponsesList = mutableListOf<Deferred<ApiResult<WikipediaResponse>>>()
+            for (plant in plantList) {
+                unsplashResponsesList.add(
                     async {
-                        try {
-                            ApiResult.Success(
-                                UnsplashService.unsplashService
-                                    .searchPhotos(
-                                        BuildConfig.UNSPLASH_API_KEY,
-                                        plant.plantName,
-                                    ),
-                            )
-                        } catch (e: Exception) {
-                            ApiResult.Failure(e.message)
-                        }
-                    }
-                }.awaitAll()
-            CheckPlantImageResponses(responses, this@PlantListViewModel::setPlantImage).invoke()
+                        callPlantImage(plant)
+                    },
+                )
+                wikipediaResponsesList.add(
+                    async {
+                        callPlantDescription(plant)
+                    },
+                )
+            }
+            val unsplashResponses = unsplashResponsesList.awaitAll()
+            val wikipediaResponses = wikipediaResponsesList.awaitAll()
+            CheckPlantResponses(
+                plantList,
+                unsplashResponses,
+                wikipediaResponses,
+                this@PlantListViewModel::setPlant,
+            ).invoke()
         }
     }
 
-    private fun setPlantImage(index: Int, imageUrl: String) {
-        val initializedPlant = plantList[index].copy(imageUrl = imageUrl)
+    private suspend fun callPlantDescription(plant: PlantViewData) = try {
+        ApiResult.Success(
+            WikipediaService.wikipediaService.searchPlantDescription(
+                plant.plantName,
+            ),
+        )
+    } catch (e: Exception) {
+        ApiResult.Failure(e.message)
+    }
+
+    private suspend fun callPlantImage(plant: PlantViewData) = try {
+        ApiResult.Success(
+            UnsplashService.unsplashService
+                .searchPhotos(
+                    BuildConfig.UNSPLASH_API_KEY,
+                    plant.plantName,
+                ),
+        )
+    } catch (e: Exception) {
+        ApiResult.Failure(e.message)
+    }
+
+    private fun setPlant(index: Int, imageUrl: String, plantDescription: String) {
+        val initializedPlant =
+            plantList[index].copy(imageUrl = imageUrl, description = plantDescription)
         val newPlantList = plantList.toMutableList().apply {
             this[index] = initializedPlant
         }
