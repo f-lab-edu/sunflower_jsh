@@ -10,7 +10,6 @@ data class PlantViewData(
     val wateringCycle: String,
     val explanation: String,
     val plantedDate: String,
-    val lastWateredDate: String,
     val isPlanted: Boolean,
     val sourceLink: String,
 ) : Parcelable

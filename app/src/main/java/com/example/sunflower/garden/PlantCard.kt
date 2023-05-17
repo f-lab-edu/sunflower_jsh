@@ -72,12 +72,6 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Text(
-            text = plantViewData.lastWateredDate,
-            modifier = Modifier.align(CenterHorizontally),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-        Text(
             text = "water in ${plantViewData.wateringCycle} days",
             modifier = Modifier
                 .align(CenterHorizontally)
