@@ -53,8 +53,8 @@ fun MainScreen(
         HorizontalPager(
             count = TabMenu.values().size,
             state = pagerState,
-        ) {
-            when (TabMenu.values()[pagerState.currentPage]) {
+        ) { index ->
+            when (TabMenu.values()[index]) {
                 TabMenu.MY_GARDEN -> MyGardenScreen(
                     plantListViewModel.gardenListState.collectAsState().value,
                     onClickPlantCard,
