@@ -41,7 +41,7 @@ fun DetailInfoScreen(
     onClickAddButton: () -> Unit,
 ) {
     val context = LocalContext.current
-    val onClickShareButton = onClickShare(plantViewData, context)
+    val onClickShareButton: (Context) -> Unit = { createShareIntent(plantViewData, it) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +74,7 @@ fun DetailInfoScreen(
                 .align(Alignment.TopEnd)
                 .padding(8.dp)
                 .size(48.dp),
-            onClick = onClickShareButton,
+            onClick = { onClickShareButton(context) },
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.secondary,
             content = {
@@ -201,7 +201,7 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
     }
 }
 
-fun onClickShare(plantViewData: PlantViewData, context: Context): () -> Unit {
+fun createShareIntent(plantViewData: PlantViewData, context: Context) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(
@@ -211,5 +211,5 @@ fun onClickShare(plantViewData: PlantViewData, context: Context): () -> Unit {
         type = "text/plain"
     }
     val shareIntent = Intent.createChooser(sendIntent, null)
-    return { context.startActivity(shareIntent) }
+    context.startActivity(shareIntent)
 }
