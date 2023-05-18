@@ -68,7 +68,7 @@ private fun AppNavHost(
 private fun DetailInfoScreenInner(
     viewModel: PlantListViewModel,
     plantName: String,
-    onClickBackButton: () -> Unit
+    onClickBackButton: () -> Unit,
 ) {
     val foundPlantState =
         viewModel.findPlantByNameAsFlow(plantName).collectAsState(initial = null)

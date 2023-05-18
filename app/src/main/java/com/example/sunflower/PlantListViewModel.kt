@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 private const val PLANT_LIST = "plantList"
 private const val GARDEN_LIST = "gardenList"
@@ -42,10 +43,10 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
 
     init {
         plantList = listOf(
-            PlantViewData("sunflower", "sunflower", "3", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData("rose", "rose", "4", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData("hydrangea", "hydrangea", "5", "설명", "심은날짜", "물준날짜", false, "출처"),
-            PlantViewData("gerbera", "gerbera", "6", "설명", "심은날짜", "물준날짜", false, "출처"),
+            PlantViewData("sunflower", "sunflower", "3", "설명", "심은날짜", false, "출처"),
+            PlantViewData("rose", "rose", "4", "설명", "심은날짜", false, "출처"),
+            PlantViewData("hydrangea", "hydrangea", "5", "설명", "심은날짜", false, "출처"),
+            PlantViewData("gerbera", "gerbera", "6", "설명", "심은날짜", false, "출처"),
         )
 
         callPlantImages()
@@ -99,7 +100,8 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
             return PlantToGardenResult.PlantNotFound
         }
 
-        val plantedClone = currentPlantList[index].copy(isPlanted = true)
+        val plantedClone =
+            currentPlantList[index].copy(isPlanted = true, plantedDate = LocalDate.now().toString())
         val newPlantList = currentPlantList.toMutableList().apply {
             this[index] = plantedClone
         }
