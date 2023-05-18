@@ -30,8 +30,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import com.example.sunflower.data.PlantViewData
+import java.lang.ref.WeakReference
 
 @ExperimentalMaterial3Api
 @Composable
@@ -40,8 +42,8 @@ fun DetailInfoScreen(
     onclickBackButton: () -> Unit,
     onClickAddButton: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val onClickShareButton: (Context) -> Unit = { createShareIntent(plantViewData, it) }
+    val context = WeakReference<Context>(LocalContext.current)
+    val onClickShareButton: (Context?) -> Unit = { createShareIntent(plantViewData, it) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +76,7 @@ fun DetailInfoScreen(
                 .align(Alignment.TopEnd)
                 .padding(8.dp)
                 .size(48.dp),
-            onClick = { onClickShareButton(context) },
+            onClick = { onClickShareButton(context.get()) },
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.secondary,
             content = {
@@ -201,7 +203,7 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
     }
 }
 
-fun createShareIntent(plantViewData: PlantViewData, context: Context) {
+fun createShareIntent(plantViewData: PlantViewData, context: Context?) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(
@@ -211,5 +213,5 @@ fun createShareIntent(plantViewData: PlantViewData, context: Context) {
         type = "text/plain"
     }
     val shareIntent = Intent.createChooser(sendIntent, null)
-    context.startActivity(shareIntent)
+    context?.startActivity(shareIntent)
 }
