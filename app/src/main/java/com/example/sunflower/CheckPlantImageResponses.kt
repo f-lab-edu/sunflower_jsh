@@ -28,12 +28,12 @@ fun attemptToSetPlant(
     wikipediaResponse: ApiResult<WikipediaResponse>,
     setPlant: (index: Int, imageUrl: String, plantDescription: String) -> Unit,
 ) {
-    val imageUrl = checkUnsplashResponse(unsplashResponse)
-    val plantDescription = checkWikipediaResponse(wikipediaResponse)
+    val imageUrl = unwrapUnsplashResponse(unsplashResponse)
+    val plantDescription = unwrapWikipediaResponse(wikipediaResponse)
     setPlant(index, imageUrl, plantDescription)
 }
 
-private fun checkUnsplashResponse(unsplashResponse: ApiResult<UnsplashSearchResponse>): String {
+private fun unwrapUnsplashResponse(unsplashResponse: ApiResult<UnsplashSearchResponse>): String {
     return when (unsplashResponse) {
         is ApiResult.Success -> {
             unsplashResponse.value.results[0].urls.thumb
@@ -45,7 +45,7 @@ private fun checkUnsplashResponse(unsplashResponse: ApiResult<UnsplashSearchResp
     }
 }
 
-private fun checkWikipediaResponse(wikipediaResponse: ApiResult<WikipediaResponse>): String {
+private fun unwrapWikipediaResponse(wikipediaResponse: ApiResult<WikipediaResponse>): String {
     return when (wikipediaResponse) {
         is ApiResult.Success -> {
             wikipediaResponse.value.extract

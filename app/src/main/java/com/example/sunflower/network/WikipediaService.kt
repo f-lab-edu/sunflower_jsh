@@ -1,8 +1,8 @@
 package com.example.sunflower.network
 
 import com.example.sunflower.data.WikipediaResponse
-import com.example.sunflower.network.UnsplashService.Companion.client
-import com.example.sunflower.network.UnsplashService.Companion.gSonConverter
+import com.example.sunflower.network.GsonConverter.gSonConverter
+import com.example.sunflower.network.OkHttpClient.client
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path

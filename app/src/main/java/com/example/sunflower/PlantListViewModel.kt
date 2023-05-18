@@ -4,12 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sunflower.data.PlantViewData
-import com.example.sunflower.data.UnsplashSearchResponse
-import com.example.sunflower.data.WikipediaResponse
 import com.example.sunflower.network.ApiResult
 import com.example.sunflower.network.UnsplashService
 import com.example.sunflower.network.WikipediaService
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
@@ -58,22 +55,12 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
 
     private fun callPlantData() {
         viewModelScope.launch {
-            val unsplashResponsesList = mutableListOf<Deferred<ApiResult<UnsplashSearchResponse>>>()
-            val wikipediaResponsesList = mutableListOf<Deferred<ApiResult<WikipediaResponse>>>()
-            for (plant in plantList) {
-                unsplashResponsesList.add(
-                    async {
-                        callPlantImage(plant)
-                    },
-                )
-                wikipediaResponsesList.add(
-                    async {
-                        callPlantDescription(plant)
-                    },
-                )
-            }
-            val unsplashResponses = unsplashResponsesList.awaitAll()
-            val wikipediaResponses = wikipediaResponsesList.awaitAll()
+            val unsplashResponses =
+                plantList.map { plant -> async { callPlantImage(plant) } }.awaitAll()
+
+            val wikipediaResponses =
+                plantList.map { plant -> async { callPlantDescription(plant) } }.awaitAll()
+
             CheckPlantResponses(
                 plantList,
                 unsplashResponses,

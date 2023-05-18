@@ -1,10 +1,9 @@
 package com.example.sunflower.network
 
 import com.example.sunflower.data.UnsplashSearchResponse
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import com.example.sunflower.network.GsonConverter.gSonConverter
+import com.example.sunflower.network.OkHttpClient.client
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -17,16 +16,6 @@ interface UnsplashService {
 
     companion object {
         private const val BASE_URL = "https://api.unsplash.com/"
-
-        private val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
-        }
-
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .build()
-
-        val gSonConverter: GsonConverterFactory = GsonConverterFactory.create()
 
         val unsplashService: UnsplashService = Retrofit.Builder()
             .baseUrl(BASE_URL)
