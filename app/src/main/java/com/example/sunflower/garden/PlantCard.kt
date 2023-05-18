@@ -1,7 +1,5 @@
 package com.example.sunflower.garden
 
-import android.icu.text.MessageFormat
-import android.icu.util.ULocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -18,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.sunflower.PluralConverter
 import com.example.sunflower.R
 import com.example.sunflower.data.PlantViewData
 
@@ -76,7 +75,7 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
 
-        val dayToPlural = dayToPlural(plantViewData.wateringCycle.toInt())
+        val dayToPlural = PluralConverter.dayToPlural(plantViewData.wateringCycle.toInt())
 
         Text(
             text = stringResource(id = R.string.water_in) + " " + dayToPlural,
@@ -88,17 +87,3 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
         )
     }
 }
-
-fun dayToPlural(count: Int): String {
-    val messageFormat = MessageFormat(
-        PLURAL_PATTERN,
-        ULocale.ENGLISH,
-    )
-    val arguments = mutableMapOf<String, Int>()
-    arguments["count"] = count
-    return messageFormat.format(arguments)
-}
-
-private const val PLURAL_PATTERN = "{count, plural, " +
-    "=1{# day}" +
-    "other{# days}}"

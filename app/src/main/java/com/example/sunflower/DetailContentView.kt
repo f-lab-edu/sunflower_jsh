@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import com.example.sunflower.data.PlantViewData
-import com.example.sunflower.garden.dayToPlural
 
 @Composable
 fun DetailContentView(
@@ -126,7 +125,7 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
 
-        val dayToPlural = dayToPlural(plantViewData.wateringCycle.toInt())
+        val dayToPlural = PluralConverter.dayToPlural(plantViewData.wateringCycle.toInt())
 
         Text(
             text = stringResource(id = R.string.water) + " " + dayToPlural,
