@@ -44,7 +44,7 @@ class PlantListViewModel(private val savedStateHandle: SavedStateHandle) : ViewM
 
     init {
         plantList = listOf(
-            PlantViewData("Sunflower", imageUrl = "", "3"),
+            PlantViewData("Sunflower", imageUrl = "", "1"),
             PlantViewData("Rose", imageUrl = "", "4"),
             PlantViewData("Hydrangea", imageUrl = "", "5"),
             PlantViewData("Gerbera", imageUrl = "", "6"),

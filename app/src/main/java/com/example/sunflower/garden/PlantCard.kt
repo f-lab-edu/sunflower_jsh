@@ -1,5 +1,7 @@
 package com.example.sunflower.garden
 
+import android.icu.text.MessageFormat
+import android.icu.util.ULocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -38,7 +40,9 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
         modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
     ) {
         AsyncImage(
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f),
             model = plantViewData.imageUrl,
             contentScale = ContentScale.FillBounds,
             contentDescription = null,
@@ -66,13 +70,16 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = stringResource(R.string.last_watered),
+            text = stringResource(R.string.watering_needs),
             modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
+
+        val dayToPlural = dayToPlural(plantViewData.wateringCycle.toInt())
+
         Text(
-            text = "water in ${plantViewData.wateringCycle} days",
+            text = stringResource(id = R.string.water_in) + " " + dayToPlural,
             modifier = Modifier
                 .align(CenterHorizontally)
                 .padding(bottom = 12.dp),
@@ -81,3 +88,17 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
         )
     }
 }
+
+fun dayToPlural(count: Int): String {
+    val messageFormat = MessageFormat(
+        PLURAL_PATTERN,
+        ULocale.ENGLISH,
+    )
+    val arguments = mutableMapOf<String, Int>()
+    arguments["count"] = count
+    return messageFormat.format(arguments)
+}
+
+private const val PLURAL_PATTERN = "{count, plural, " +
+    "=1{# day}" +
+    "other{# days}}"
