@@ -159,8 +159,8 @@ fun DetailTextView(plantViewData: PlantViewData, modifier: Modifier) {
             hyperlinkString
                 .getStringAnnotations(TAG, it, it)
                 .firstOrNull()?.let { stringAnnotation ->
-                uriHandler.openUri(stringAnnotation.item)
-            }
+                    uriHandler.openUri(stringAnnotation.item)
+                }
         }
     }
 }
