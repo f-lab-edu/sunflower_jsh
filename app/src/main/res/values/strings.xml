@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Sunflower</string>
     <string name="planted">Planted</string>
-    <string name="last_watered">Last Watered</string>
+    <string name="water_in">water in</string>
+    <string name="water">water</string>
     <string name="watering_needs">Watering needs</string>
     <string name="add_toast_message">Added Plant to Garden</string>
     <string name="error_message">Something went wrong! Please try again!</string>
+    <string name="source_text">(From Wikipedia)</string>
+    <string name="source_link">https://en.m.wikipedia.org/wiki/%s</string>
 </resources>

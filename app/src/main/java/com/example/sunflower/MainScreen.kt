@@ -46,7 +46,7 @@ fun MainScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Column {
-        TopBar(pagerState)
+        TopBar()
 
         TabMenu(pagerState, coroutineScope)
 
@@ -68,9 +68,9 @@ fun MainScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(pagerState: PagerState) {
+private fun TopBar() {
     CenterAlignedTopAppBar(
         modifier = Modifier.fillMaxWidth(),
         colors = centerAlignedTopAppBarColors(
@@ -85,14 +85,6 @@ private fun TopBar(pagerState: PagerState) {
                     .width(IntrinsicSize.Min),
                 style = MaterialTheme.typography.titleLarge,
             )
-        },
-        actions = {
-            if (TabMenu.values()[pagerState.currentPage] == TabMenu.PLANT_LIST) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_filter),
-                    contentDescription = null,
-                )
-            }
         },
     )
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.sunflower.PluralConverter
 import com.example.sunflower.R
 import com.example.sunflower.data.PlantViewData
 
@@ -38,7 +39,9 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
         modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
     ) {
         AsyncImage(
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f),
             model = plantViewData.imageUrl,
             contentScale = ContentScale.FillBounds,
             contentDescription = null,
@@ -66,13 +69,16 @@ private fun PlantCardContent(plantViewData: PlantViewData) {
             color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-            text = stringResource(R.string.last_watered),
+            text = stringResource(R.string.watering_needs),
             modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
+
+        val dayToPlural = PluralConverter.dayToPlural(plantViewData.wateringCycle.toInt())
+
         Text(
-            text = "water in ${plantViewData.wateringCycle} days",
+            text = stringResource(id = R.string.water_in) + " " + dayToPlural,
             modifier = Modifier
                 .align(CenterHorizontally)
                 .padding(bottom = 12.dp),
